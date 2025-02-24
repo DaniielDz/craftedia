@@ -8,17 +8,25 @@ import x from "../assets/x.svg";
 import luna from "../assets/luna.svg";
 import sol from "../assets/sol.svg";
 import styles from "../styles/Header.module.css";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ScrollContext } from "../ScrollContext";
 
 function Header() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isScrolled } = useContext(ScrollContext);
 
   return (
     <header className={styles.header}>
       <div className={styles.logoContainer}>
-        <Link to={'/'}>
-          <img src={logo} alt="craftedia logo" className={styles.logo} />
+        <Link to={"/"}>
+          <img
+            src={logo}
+            alt="craftedia logo"
+            className={`${styles.logo} ${
+              isScrolled ? styles.logoScrolled : ""
+            }`}
+          />
         </Link>
         <button
           className={styles.barsBtn}
@@ -79,17 +87,23 @@ function Header() {
         </div>
         <div className={styles.socialSection}>
           <div className={styles.socialIcons}>
-            <img
-              src={patreon}
-              alt="icono de Patreon"
-              className={styles.socialIcon}
-            />
-            <img src={x} alt="icono de X" className={styles.socialIcon} />
-            <img
-              src={discord}
-              alt="icono de Discord"
-              className={styles.socialIcon}
-            />
+            <Link target="_blank" to={"https://www.patreon.com/HakksG"}>
+              <img
+                src={patreon}
+                alt="icono de Patreon"
+                className={styles.socialIcon}
+              />
+            </Link>
+            <Link target="_blank" to={"https://x.com/H4kks"}>
+              <img src={x} alt="icono de X" className={styles.socialIcon} />
+            </Link>
+            <Link target="_blank" to={"https://discord.com/invite/5GChmS4yEw"}>
+              <img
+                src={discord}
+                alt="icono de Discord"
+                className={styles.socialIcon}
+              />
+            </Link>
           </div>
           <div className={styles.themeToggle}>
             <img src={sol} alt="icono de sol" className={styles.themeIcon} />
