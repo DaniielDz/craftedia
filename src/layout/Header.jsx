@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import logo from "../assets/logo.svg";
 import bars from "../assets/bars.svg";
 import close from "../assets/close.svg";
@@ -12,9 +12,11 @@ import { useContext, useState } from "react";
 import { ScrollContext } from "../ScrollContext";
 
 function Header() {
-  const [isSwitchOn, setIsSwitchOn] = useState(false);
+  const [isSwitchOn, setIsSwitchOn] = useState(false); // SERÁ EL ESTADO GLOBAL PARA EL MODO CLARO - MODO OSCURO
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isScrolled } = useContext(ScrollContext);
+  const location = useLocation();
+  const isHome = location.pathname === "/";
 
   return (
     <header className={styles.header}>
@@ -24,8 +26,9 @@ function Header() {
             src={logo}
             alt="craftedia logo"
             className={`${styles.logo} ${
-              isScrolled ? styles.logoScrolled : ""
-            }`}
+              isHome && isScrolled ? styles.logoScrolled : ""
+            }`} 
+            style={{ display: isHome ? "none" : "block" }}
           />
         </Link>
         <button

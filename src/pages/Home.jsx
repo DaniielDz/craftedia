@@ -1,6 +1,6 @@
 import { ScrollContext } from "../ScrollContext"; 
 import logo from "../assets/logo.svg";
-import heroImage from "../assets/homeHero.png";
+import heroImage from "../assets/homeHero.webp";
 import aboutMeImg from "../assets/aboutMeIcon.svg";
 import styles from "../styles/Home.module.css";
 import { useContext } from "react";
