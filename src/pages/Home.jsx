@@ -1,4 +1,4 @@
-import { ScrollContext } from "../ScrollContext"; 
+import { ScrollContext } from "../context/ScrollContext.jsx"; 
 import logo from "../assets/logo.svg";
 import heroImage from "../assets/homeHero.webp";
 import aboutMeImg from "../assets/aboutMeIcon.svg";

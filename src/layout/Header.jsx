@@ -9,7 +9,7 @@ import luna from "../assets/luna.svg";
 import sol from "../assets/sol.svg";
 import styles from "../styles/Header.module.css";
 import { useContext, useState } from "react";
-import { ScrollContext } from "../ScrollContext";
+import { ScrollContext } from "../context/ScrollContext";
 
 function Header() {
   const [isSwitchOn, setIsSwitchOn] = useState(false); // SERÁ EL ESTADO GLOBAL PARA EL MODO CLARO - MODO OSCURO
