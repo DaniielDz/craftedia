@@ -1,0 +1,88 @@
+.imgSection {
+    max-width: 95%;
+    height: 18rem;
+    margin: 2rem auto 0;
+}
+
+.imgSection img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2rem;
+}
+
+.textSection {
+    max-width: 90%;
+    margin: 2rem auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-top: 1px solid #1b1a1d;
+    color: #1b1a1d;
+}
+
+.title {
+    font-size: 2rem;
+    line-height: 150%;
+}
+
+.description {
+    font-size: 1.4rem;
+    line-height: 150%;
+}
+
+.textContain {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+    gap: 2rem;
+}
+
+.text h2 {
+    font-size: 1.6rem;
+    margin-bottom: .5rem;
+}
+
+.text p {
+    font-size: 1.2rem;
+    line-height: 150%;
+}
+
+@media (min-width: 768px) {
+    .imgSection {
+        max-width: 80%;
+        height: auto;
+        max-height: 36rem;
+    }
+
+    .textSection {
+        max-width: 80%;
+        margin: 10rem auto;
+        padding: 4rem;
+    }
+
+    .textContain {
+        margin-top: 4rem;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(3, auto);
+        gap: 4rem;
+    }
+
+    .title {
+        font-size: 4rem;
+    }
+
+    .description {
+        font-size: 1.8rem;
+    }
+
+    .text h2 {
+        font-size: 2rem;
+    }
+
+    .text p {
+        font-size: 1.6rem;
+    }
+
+}

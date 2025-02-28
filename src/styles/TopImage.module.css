@@ -1,0 +1,15 @@
+.sectionImg {
+    width: 100%;
+}
+
+.sectionImg img {
+    width: 100%;
+    height: 35rem;
+    object-fit: cover;
+}
+
+.sectionImg img {
+    height: auto;
+    max-height: 81rem;
+    object-fit: unset;
+}

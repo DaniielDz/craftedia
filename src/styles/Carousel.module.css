@@ -1,0 +1,91 @@
+.carouselWrapper {
+    position: relative;
+    width: 100%;
+    padding: 0 40px;
+  }
+  
+  .carouselContainer {
+    overflow: hidden;
+    width: 100%;
+  }
+  
+  .carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 10px;
+  }
+  
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .imageContainer {
+    flex: 0 0 calc(25% - 12px);
+    height: 200px;
+    min-width: calc(25% - 12px);
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+  }
+  
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    color: #333;
+    border: none;
+    cursor: pointer;
+    padding: 12px;
+    font-size: 24px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    z-index: 1;
+  }
+  
+  .arrow:hover {
+    background: #f0f0f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  }
+  
+  .arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+  
+  .leftArrow {
+    left: 0;
+  }
+  
+  .rightArrow {
+    right: 0;
+  }
+  
+  @media (max-width: 1024px) {
+    .imageContainer {
+      flex: 0 0 calc(33.33% - 12px);
+      min-width: calc(33.33% - 12px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .carouselWrapper {
+      padding: 0 30px;
+    }
+    
+    .imageContainer {
+      flex: 0 0 calc(50% - 8px);
+      min-width: calc(50% - 8px);
+      height: 150px;
+    }
+    
+    .arrow {
+      padding: 8px;
+      font-size: 20px;
+    }
+  }

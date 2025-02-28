@@ -58,13 +58,13 @@ function Header() {
                 </Link>
               </li>
               <li className={styles.navItem}>
-                <Link to={"/resourcepacks/faq"} className={styles.navLink}>
+                <Link to={"/faq"} className={styles.navLink}>
                   FAQ
                 </Link>
               </li>
               <li className={styles.navItem}>
                 <Link
-                  to={"/resourcepacks/terms-of-use"}
+                  to={"/terms-of-use"}
                   className={styles.navLink}
                 >
                   Terms of use

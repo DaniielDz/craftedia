@@ -5,7 +5,10 @@ import ResourcePacks from "./pages/ResourcePacks";
 import Portfolio from "./layout/Portfolio";
 import "./styles/app.css";
 import InnerPage from "./pages/InnerPage";
-import PostDetail from "./pages/PostDetail";
+import RPPostDetail from "./pages/RPPostDetail";
+import PFPostDetail from "./pages/PFPostDetail";
+import FaqPage from "./pages/FaqPage";
+import TermsPage from "./pages/TermsPage";
 
 const routesRP = [
   { path: "java", title: "Java Resource Packs", element: <ResourcePacks /> },
@@ -37,7 +40,7 @@ function App() {
           <Route
             key={`rp-dynamic-${index}`}
             path={`resourcepacks/${route.path}/:id`}
-            element={<PostDetail/>} 
+            element={<RPPostDetail/>} 
           />
         ))}
 
@@ -52,9 +55,12 @@ function App() {
           <Route
             key={`pf-dynamic-${index}`}
             path={`portfolio/${route.path}/:id`}
-            element={<PostDetail/>} 
+            element={<PFPostDetail/>} 
           />
         ))}
+
+        <Route path="faq" element={<FaqPage />} />
+        <Route path="terms-of-use" element={<TermsPage />} />
 
       </Route>
     </Routes>
