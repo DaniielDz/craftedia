@@ -1,5 +1,5 @@
 import styles from "../styles/PFPostDetail.module.css";
-import TopImage from "../components/TopImage";
+import TopImage from "../components/TopImagePost";
 import Carousel from "../components/Carousel";
 import skin from "../assets/skin.png";
 import Text from "../components/Text";

@@ -1,0 +1,20 @@
+.imgSection {
+    max-width: 95%;
+    height: 18rem;
+    margin: 2rem auto 0;
+}
+
+.imgSection img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2rem;
+}
+
+@media (min-width: 768px) {
+    .imgSection {
+        max-width: 80%;
+        height: auto;
+        max-height: 36rem;
+    }
+}

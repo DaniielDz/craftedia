@@ -3,7 +3,7 @@ import icDescarga from "../assets/descarga.svg";
 import styles from "../styles/RPPostDetail.module.css";
 import ProgressBar from "../components/ProgressBar";
 import Carousel from "../components/Carousel";
-import TopImage from "../components/TopImage";
+import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
 
 function PostDetail() {

@@ -1,5 +1,5 @@
+import TopImageInfo from "../components/TopImageInfo";
 import styles from "../styles/FaqPage.module.css";
-import roundedBg from "../assets/roundedBg.png";
 
 function FaqPage() {
   const textContain = [
@@ -36,9 +36,7 @@ function FaqPage() {
 
   return (
     <>
-      <section className={styles.imgSection}>
-        <img src={roundedBg} alt="imágen de fondo" />
-      </section>
+      <TopImageInfo />
       <section className={styles.textSection}>
         <h1 className={styles.title}>Frequently Asked Questions</h1>
         <p className={styles.description}>

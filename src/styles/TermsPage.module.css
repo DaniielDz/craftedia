@@ -1,0 +1,60 @@
+.termsSection {
+    max-width: 90%;
+    margin: 3rem auto 0;
+    color: #1b1a1d;
+}
+
+.title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.text {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    line-height: 150%;
+}
+
+.list {
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-left: 2rem;
+}
+
+.listItem {
+    list-style: disc !important;
+    font-size: 1.2rem;
+    line-height: 150%;
+}
+
+
+@media (min-width: 768px) {
+    .termsSection {
+        margin-top: 5%;
+        max-width: 75%;
+    }
+
+    .title {
+        font-size: 4rem;
+    }
+
+    .text {
+        font-size: 1.6rem;
+    }
+
+    .list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        gap: 2rem;
+        padding-left: 3rem;
+    }
+
+    .listItem {
+        width: 80%;
+        font-size: 1.6rem;
+    }
+}
