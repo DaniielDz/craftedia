@@ -9,6 +9,12 @@ import RPPostDetail from "./pages/RPPostDetail";
 import PFPostDetail from "./pages/PFPostDetail";
 import FaqPage from "./pages/FaqPage";
 import TermsPage from "./pages/TermsPage";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import AdminLogin from "./pages/Admin/AdminLogin";
+import AdminPanel from "./pages/Admin/AdminPanel";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
+import AuthRedirect from "./components/AuthRedirect"; // Importa el nuevo componente
 
 const routesRP = [
   { path: "java", title: "Java Resource Packs", element: <ResourcePacks /> },
@@ -40,7 +46,7 @@ function App() {
           <Route
             key={`rp-dynamic-${index}`}
             path={`resourcepacks/${route.path}/:id`}
-            element={<RPPostDetail/>} 
+            element={<RPPostDetail />}
           />
         ))}
 
@@ -50,21 +56,29 @@ function App() {
           ))}
         </Route>
 
-
         {routesPf.map((route, index) => (
           <Route
             key={`pf-dynamic-${index}`}
             path={`portfolio/${route.path}/:id`}
-            element={<PFPostDetail/>} 
+            element={<PFPostDetail />}
           />
         ))}
 
         <Route path="faq" element={<FaqPage />} />
         <Route path="terms-of-use" element={<TermsPage />} />
 
+        <Route path="admin" element={<AdminLayout />}>
+          <Route index element={<AuthRedirect />} /> {/* Redirige dinámicamente */}
+          <Route element={<PublicRoute />}>
+            <Route path="login" element={<AdminLogin />} /> {/* Ruta pública */}
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="panel" element={<AdminPanel />} /> {/* Ruta privada */}
+          </Route>
+        </Route>
       </Route>
     </Routes>
   );
 }
 
-export default App;
+export default App; 
