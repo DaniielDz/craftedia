@@ -10,6 +10,7 @@ import sol from "../assets/sol.svg";
 import styles from "../styles/Header.module.css";
 import { useContext, useState } from "react";
 import { ScrollContext } from "../context/ScrollContext";
+import Search from "../components/Search";
 
 function Header() {
   const [isSwitchOn, setIsSwitchOn] = useState(false); // SERÁ EL ESTADO GLOBAL PARA EL MODO CLARO - MODO OSCURO
@@ -17,6 +18,10 @@ function Header() {
   const { isScrolled } = useContext(ScrollContext);
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const isAdmin = location.pathname.includes("/admin");
+  const isAdminResPacks =
+    isAdmin && location.pathname.includes("/resourcepacks");
+  const isAdminPortfolio = isAdmin && location.pathname.includes("/portfolio");
 
   return (
     <header className={styles.header}>
@@ -27,7 +32,7 @@ function Header() {
             alt="craftedia logo"
             className={`${styles.logo} ${
               isHome && isScrolled ? styles.logoScrolled : ""
-            }`} 
+            }`}
             style={{ display: isHome ? "none" : "block" }}
           />
         </Link>
@@ -42,52 +47,65 @@ function Header() {
         className={`${styles.headerContainer} ${
           isMenuOpen ? styles.headerContainerActive : ""
         }`}
+        style={{
+          width:
+            isAdmin && !isAdminPortfolio && !isAdminResPacks
+              ? "auto"
+              : isAdminPortfolio || isAdminResPacks
+              ? "70%"
+              : "100%",
+        }}
       >
-        <div className={styles.navSection}>
-          <div className={styles.navGroup}>
-            <span className={styles.navTitle}>Resourcepacks</span>
-            <ul className={styles.navList}>
-              <li className={styles.navItem}>
-                <Link to={"/resourcepacks/java"} className={styles.navLink}>
-                  Java
-                </Link>
-              </li>
-              <li className={styles.navItem}>
-                <Link to={"/resourcepacks/bedrock"} className={styles.navLink}>
-                  Bedrock
-                </Link>
-              </li>
-              <li className={styles.navItem}>
-                <Link to={"/faq"} className={styles.navLink}>
-                  FAQ
-                </Link>
-              </li>
-              <li className={styles.navItem}>
-                <Link
-                  to={"/terms-of-use"}
-                  className={styles.navLink}
-                >
-                  Terms of use
-                </Link>
-              </li>
-            </ul>
+        {isAdmin ? (
+          ""
+        ) : (
+          <div className={styles.navSection}>
+            <div className={styles.navGroup}>
+              <span className={styles.navTitle}>Resourcepacks</span>
+              <ul className={styles.navList}>
+                <li className={styles.navItem}>
+                  <Link to={"/resourcepacks/java"} className={styles.navLink}>
+                    Java
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link
+                    to={"/resourcepacks/bedrock"}
+                    className={styles.navLink}
+                  >
+                    Bedrock
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link to={"/faq"} className={styles.navLink}>
+                    FAQ
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link to={"/terms-of-use"} className={styles.navLink}>
+                    Terms of use
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div className={styles.navGroup}>
+              <span className={styles.navTitle}>Portfolio</span>
+              <ul className={styles.navList}>
+                <li className={styles.navItem}>
+                  <Link to={"/portfolio/2d"} className={styles.navLink}>
+                    2D
+                  </Link>
+                </li>
+                <li className={styles.navItem}>
+                  <Link to={"/portfolio/3d"} className={styles.navLink}>
+                    3D
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div className={styles.navGroup}>
-            <span className={styles.navTitle}>Portfolio</span>
-            <ul className={styles.navList}>
-              <li className={styles.navItem}>
-                <Link to={"/portfolio/2d"} className={styles.navLink}>
-                  2D
-                </Link>
-              </li>
-              <li className={styles.navItem}>
-                <Link to={"/portfolio/3d"} className={styles.navLink}>
-                  3D
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
+        )}
+        {isAdminResPacks || isAdminPortfolio ? <Search styles={styles} /> : ""}
         <div className={styles.socialSection}>
           <div className={styles.socialIcons}>
             <Link target="_blank" to={"https://www.patreon.com/HakksG"}>

@@ -1,0 +1,124 @@
+.postCard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    border: 1px solid #1b1a1d;
+    border-radius: 1rem;
+}
+
+.postCard__imageContainer {
+    /* width: 100%; */
+    max-width: 15rem;
+    max-height: 15rem;
+}
+
+.postCard__image {
+    width: 100%;
+    height: 100%;
+}
+
+.postCard__content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    color: #1b1a1d;
+}
+
+.postCard__title {
+    font-size: 1.8rem;
+    color: #000;
+}
+
+.postCard__body {
+    font-size: 1.4rem;
+}
+
+.postCard__tags {
+    display: flex;
+    justify-content: center;
+    gap: .5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.postCard__tag {
+    padding: .5rem;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #1b1a1d;
+}
+
+.postCard__actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.postCard__action {
+    width: 3rem;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.postCard__actionIcon {
+    width: 100%;
+    height: 100%;
+}
+.postCard__actionDelete {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+@media (min-width: 768px) {
+    .postCard {
+        width: 100%;
+        max-width: 100rem;
+        flex-direction: row;
+        align-items: normal;
+        gap: 4rem;
+    }
+
+    .postCard__content {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .postCard__title {
+        font-size: 4rem;
+    }
+
+    .postCard__body {
+        font-size: 2rem;
+    }
+
+    .postCard__tags {
+        justify-content: normal;
+    }
+
+    .postCard__actions {
+        width: auto;
+    }
+
+    .postCard__tag {
+        font-size: 1.4rem;
+    }
+
+    .postCard__actions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2rem;
+    }
+
+    .postCard__action {
+        width: 4rem;
+        height: 4rem;
+    }
+
+    .postCard__actionDelete {
+        grid-column: 2/3;
+    }
+}

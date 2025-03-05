@@ -28,7 +28,7 @@
 }
 
 .logoScrolled {
-    display: block !important; 
+    display: block !important;
     height: auto;
     z-index: 400;
     transition: all 0.5s ease;
@@ -145,12 +145,43 @@
     left: 4px;
 }
 
+.search {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.inpSearch {
+    width: 100%;
+    max-width: 40rem;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+    color: #1B1A1D;
+    border: none;
+    outline: none;
+}
+
+.btnSearch {
+    width: 4rem;
+    height: 4rem;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.icSearch {
+    width: 100%;
+}
+
 @media (min-width: 1024px) {
     .header {
         height: 7rem;
         padding: 1rem 2.8rem;
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     .barsBtn {
@@ -158,7 +189,7 @@
     }
 
     .headerContainer {
-        width: 100%;
+        gap: 4rem;
         max-height: 6rem;
         padding: 0 4rem;
         justify-content: space-between;
@@ -198,12 +229,17 @@
     .navItem {
         width: 15rem;
     }
+
     .navItem:last-child {
         border-bottom-left-radius: 1rem;
         border-bottom-right-radius: 1rem;
     }
 
-    .navGroup:hover .navList, .navList:hover {
+    .navGroup:hover .navList,
+    .navList:hover {
         display: block;
+    }
+    .search {
+        width: 100%;
     }
 }

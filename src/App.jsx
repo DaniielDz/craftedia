@@ -16,6 +16,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import AuthRedirect from "./components/AuthRedirect";
 import AdminSingUp from "./pages/Admin/AdminSingUp";
+import AdminResPacks from "./pages/Admin/AdminResPacks";
+import AdminPortfolio from "./pages/Admin/AdminPortfolio";
 
 const routesRP = [
   { path: "java", title: "Java Resource Packs", element: <ResourcePacks /> },
@@ -69,18 +71,26 @@ function App() {
         <Route path="terms-of-use" element={<TermsPage />} />
 
         <Route path="admin" element={<AdminLayout />}>
-          <Route index element={<AuthRedirect />} /> {/* Redirige dinámicamente */}
+          <Route index element={<AuthRedirect />} />{" "}
+          {/* Redirige dinámicamente */}
+          {/* Rutas públicas */}
           <Route element={<PublicRoute />}>
-            <Route path="login" element={<AdminLogin />} /> {/* Ruta pública */}
-            <Route path="singUp" element={<AdminSingUp />} /> {/* Ruta pública */}
+            <Route path="login" element={<AdminLogin />} />
+            <Route path="singUp" element={<AdminSingUp />} />
           </Route>
           <Route element={<ProtectedRoute />}>
-            <Route path="panel" element={<AdminPanel />} /> {/* Ruta privada */}
+            <Route path="panel" element={<AdminPanel />} />
           </Route>
+        </Route>
+
+        {/* Rutas privadas*/}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin/resourcepacks" element={<AdminResPacks />} />
+          <Route path="/admin/portfolio" element={<AdminPortfolio />} />
         </Route>
       </Route>
     </Routes>
   );
 }
 
-export default App; 
+export default App;
