@@ -14,6 +14,15 @@ function AdminForm({ isLogin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null)
+    if( !email.includes("@") || !email.includes(".") ){
+      setError("Email no valido")
+      return;
+    }
+    if(password.length < 6){
+      setError("La contraseña debe tener al menos 6 caracteres")
+      return;
+    }
+
     try {
       if (isLogin) {
         await login(email, password);
