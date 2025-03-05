@@ -1,7 +1,7 @@
 import AdminForm from "../../components/AdminForm";
 
 function AdminLogin() {
-    return ( <AdminForm /> );
+    return ( <AdminForm isLogin={true} /> );
 }
 
 export default AdminLogin;

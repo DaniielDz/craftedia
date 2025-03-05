@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { loginRequest, logoutRequest, checkAuthStatus } from "../api/authApi";
+import {
+  loginRequest,
+  singUpRequest,
+  logoutRequest,
+  checkAuthStatus,
+} from "../api/authApi";
 import { AuthContext } from "./AuthContext";
 
 export const AuthProvider = ({ children }) => {
@@ -17,18 +22,19 @@ export const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     };
-  
+
     verifyAuth();
   }, []);
 
   // Login
   const login = async (email, password) => {
-    try {
-      const response = await loginRequest(email, password);
-      setUser(response.user); // Asume que el backend devuelve el usuario en `response.user`
-    } catch (error) {
-      throw new Error("Error en el login");
-    }
+    const response = await loginRequest(email, password);
+    setUser(response.user);
+  };
+
+  const singUp = async (email, password) => {
+    const response = await singUpRequest(email, password);
+    setUser({ email: response.user });
   };
 
   // Logout
@@ -42,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, singUp, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

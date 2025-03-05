@@ -40,7 +40,7 @@
     color: #ffffff;
     border: none;
     border-radius: 5px;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -48,4 +48,21 @@
 
 .button:hover {
     background-color: #1B1A1D;
+}
+
+.error {
+    color: #ff4444;
+    background: #ffebee;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ff4444;
+    font-size: 1.2rem;
+}
+
+.link {
+    color: #473579;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
 }

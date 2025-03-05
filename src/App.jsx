@@ -14,7 +14,8 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminPanel from "./pages/Admin/AdminPanel";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
-import AuthRedirect from "./components/AuthRedirect"; // Importa el nuevo componente
+import AuthRedirect from "./components/AuthRedirect";
+import AdminSingUp from "./pages/Admin/AdminSingUp";
 
 const routesRP = [
   { path: "java", title: "Java Resource Packs", element: <ResourcePacks /> },
@@ -71,6 +72,7 @@ function App() {
           <Route index element={<AuthRedirect />} /> {/* Redirige dinámicamente */}
           <Route element={<PublicRoute />}>
             <Route path="login" element={<AdminLogin />} /> {/* Ruta pública */}
+            <Route path="singUp" element={<AdminSingUp />} /> {/* Ruta pública */}
           </Route>
           <Route element={<ProtectedRoute />}>
             <Route path="panel" element={<AdminPanel />} /> {/* Ruta privada */}
