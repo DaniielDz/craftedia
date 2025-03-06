@@ -1,5 +1,5 @@
 import AdminHeaderPage from "../../components/AdminHeaderPage";
-import PostItem from "../../components/PostItem";
+import PostsList from "../../components/PostsList";
 
 function AdminResPacks() {
   return (
@@ -8,10 +8,7 @@ function AdminResPacks() {
         newPostLink={"/admin/resourcepacks/new-post"}
         title={"Resourcepacks"}
       />
-      {/* style={{padding:"0 1rem", display:"grid", gridTemplateColumns: "repeat(2, 1fr)", gap:"2rem"}} */}
-      <div style={{padding: "0 2rem"}}>
-        <PostItem />
-      </div>
+      <PostsList />
     </>
   );
 }

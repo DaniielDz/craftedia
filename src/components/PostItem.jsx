@@ -1,11 +1,15 @@
 import { Link } from "react-router";
-import styles from "../styles/PostItem.module.css"
+import styles from "../styles/PostItem.module.css";
 import postImg from "../assets/skin.png";
 import IC_Edit from "../assets/IC_edit.svg";
 import IC_Show from "../assets/IC_watch.svg";
 import IC_Trash from "../assets/IC_trash.svg";
+import DeleteModal from "./DeleteModal";
+import { useState } from "react";
 
 function PostItem() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className={styles.postCard}>
       <div className={styles.postCard__imageContainer}>
@@ -26,7 +30,7 @@ function PostItem() {
         </ul>
       </div>
       <div className={styles.postCard__actions}>
-        <Link className={styles.postCard__action} to="/post/1}">
+        <Link className={styles.postCard__action} to="/post/1">
           <img
             className={styles.postCard__actionIcon}
             src={IC_Edit}
@@ -45,6 +49,7 @@ function PostItem() {
         </Link>
         <button
           className={`${styles.postCard__action} ${styles.postCard__actionDelete}`}
+          onClick={() => setIsModalOpen(true)}
         >
           <img
             className={styles.postCard__actionIcon}
@@ -52,6 +57,11 @@ function PostItem() {
             alt="Delete Icon"
           />
         </button>
+        <DeleteModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => setIsModalOpen(false)}
+        />
       </div>
     </div>
   );
