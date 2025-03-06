@@ -4,7 +4,9 @@ import styles from "../../styles/RPNewPost.module.css";
 import ImageGallery from "../../components/ImageGallery";
 
 function RPNewPost() {
-  const [content, setContent] = useState("");
+  const [firstTxt, setFirstTxt] = useState("");
+  const [secondTxt, setSecondTxt] = useState("");
+
   const arr = [
     {
       label: "Progress:",
@@ -45,15 +47,12 @@ function RPNewPost() {
         <button className={styles.btn}>Post</button>
       </div>
 
-      <TextEditor value={content} onChange={setContent} />
-      <TextEditor value={content} onChange={setContent} />
+      <TextEditor value={firstTxt} onChange={setFirstTxt} />
+      <TextEditor value={secondTxt} onChange={setSecondTxt} />
 
       <div className={styles.bottomContainer}>
-        {/* Bottom */}
         <div>
-          {/* Left */}
           <div className={styles.inputsContainer}>
-            {/* Inputs */}
             {arr.map((obj, index) => (
               <div key={index} className={styles.inputGroup}>
                 <label htmlFor="">{obj.label}</label>
