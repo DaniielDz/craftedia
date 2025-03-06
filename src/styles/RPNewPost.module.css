@@ -1,0 +1,113 @@
+.container {
+    padding: 6rem 2rem 0;
+    margin: 0 auto;
+    max-width: 106.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+}
+
+.topContainer {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    justify-items: center;
+    padding-top: 2rem;
+    border-top: 1px solid #1b1a1d;
+}
+
+.quill {
+    width: 100%;
+}
+
+.input {
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.6rem;
+    color: #1b1a1d;
+    background-color: #cecece;
+}
+
+.title {
+    font-size: 2.4rem;
+    color: #1b1a1d;
+}
+
+.btn {
+    width: 100%;
+    max-width: 20rem;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: #f7f7f7;
+    background-color: #473579;
+    cursor: pointer;
+    transition: background-color .5s ease;
+}
+
+.btn:hover {
+    background-color: #1b1a1d;
+}
+
+.input,
+.btn {
+    border: none;
+    outline: none;
+}
+
+.inputsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-end;
+}
+
+.inputGroup label,
+.inputGroup input {
+    width: 50%;
+    height: 4rem;
+    max-width: 18.7rem;
+    padding: 1rem;
+    font-size: 1.6rem;
+    text-align: center;
+}
+
+.inputGroup label {
+    color: #fff;
+    background-color: #000;
+}
+
+
+@media (min-width:768px) {
+    .container {
+        max-width: 150rem;
+    }
+
+    .topContainer {
+        display: flex;
+        justify-content: center;
+        gap: 6rem;
+    }
+
+    .title {
+        font-size: 4rem;
+    }
+
+    .input:first-child {
+        width: 100%;
+        max-width: 40.7rem;
+    }
+
+    .bottomContainer {
+        width: 80%;
+        margin-top: 5rem;
+        display: flex;
+        justify-content: space-around;
+    }
+}

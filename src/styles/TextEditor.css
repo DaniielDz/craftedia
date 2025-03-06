@@ -1,3 +1,6 @@
+.quill {
+    width: 80%;
+}
 .ql-embed::before {
     content: "Embed";
     font-size: 14px;
