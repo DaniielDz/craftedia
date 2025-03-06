@@ -18,6 +18,7 @@ import AuthRedirect from "./components/AuthRedirect";
 import AdminSingUp from "./pages/Admin/AdminSingUp";
 import AdminResPacks from "./pages/Admin/AdminResPacks";
 import AdminPortfolio from "./pages/Admin/AdminPortfolio";
+import RPNewPost from "./pages/Admin/RPNewPost";
 
 const routesRP = [
   { path: "java", title: "Java Resource Packs", element: <ResourcePacks /> },
@@ -87,6 +88,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/admin/resourcepacks" element={<AdminResPacks />} />
           <Route path="/admin/portfolio" element={<AdminPortfolio />} />
+          <Route path="/admin/resourcepacks/new-post" element={<RPNewPost />} />
         </Route>
       </Route>
     </Routes>
