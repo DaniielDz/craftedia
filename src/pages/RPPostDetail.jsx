@@ -5,8 +5,22 @@ import ProgressBar from "../components/ProgressBar";
 import Carousel from "../components/Carousel";
 import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
+import { useEffect, useState } from "react";
+import { getById } from "../api/postApi";
 
 function PostDetail() {
+  const [data, setData] = useState(null);
+
+  const getData = async () => {
+    const res = await getById(19);
+
+    setData(res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <TopImage />
@@ -14,7 +28,7 @@ function PostDetail() {
         <div className={styles.textoUnoContainer}>
           <div className={styles.textoUnoText}>
             <h1 className={styles.title}>Título del proyecto</h1>
-            <Text />
+            {data && <Text txt={data.content} />}
           </div>
           <img src={skin} alt="imagen del post" />
         </div>
@@ -64,7 +78,7 @@ function PostDetail() {
           </div>
         </div>
         <div>
-          <Carousel images={[skin,skin,skin,skin,skin,skin]} />
+          <Carousel images={[skin, skin, skin, skin, skin, skin]} />
         </div>
       </section>
     </>

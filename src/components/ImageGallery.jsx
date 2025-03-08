@@ -1,9 +1,7 @@
-import { useState } from "react";
 import styles from "../styles/ImageGallery.module.css";
 import trashIcon from "../assets/IC_trash.svg";
 
-const ImageGallery = () => {
-  const [images, setImages] = useState([]);
+const ImageGallery = ({images, setImages}) => {
 
   // Eliminar una imagen por su índice
   const handleRemove = (index) => {
@@ -34,10 +32,21 @@ const ImageGallery = () => {
     e.preventDefault();
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-      const newImages = Array.from(files).map((file) =>
-        URL.createObjectURL(file)
-      );
-      setImages((prevImages) => [...prevImages, ...newImages]);
+      // Convertir cada archivo a Base64
+      const newImagesPromises = Array.from(files).map((file) => {
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            resolve(reader.result); // Base64
+          };
+          reader.readAsDataURL(file); // Convertir a Base64
+        });
+      });
+
+      // Esperar a que todas las imágenes se conviertan
+      Promise.all(newImagesPromises).then((newImages) => {
+        setImages((prevImages) => [...prevImages, ...newImages]);
+      });
     }
   };
 
