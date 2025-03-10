@@ -7,14 +7,19 @@ import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
 import { useEffect, useState } from "react";
 import { getById } from "../api/postApi";
+import { useLocation } from "react-router";
 
 function PostDetail() {
   const [data, setData] = useState(null);
+  const location = useLocation();
+  const currentUrl = location.pathname;
+  const postId = parseInt(currentUrl.split("/").pop());
 
   const getData = async () => {
-    const res = await getById(19);
+    const res = await getById(postId);
 
     setData(res);
+    
   };
 
   useEffect(() => {
@@ -24,63 +29,77 @@ function PostDetail() {
   return (
     <>
       <TopImage />
-      <section className={styles.sectionContain}>
-        <div className={styles.textoUnoContainer}>
-          <div className={styles.textoUnoText}>
-            <h1 className={styles.title}>Título del proyecto</h1>
-            {data && <Text txt={data.content} />}
+      {data && (
+        <section className={styles.sectionContain}>
+          <div className={styles.textoUnoContainer}>
+            <div className={styles.textoUnoText}>
+              <h1 className={styles.title}>{data.title}</h1>
+              {data && <Text txt={data.firstTxtField} />}
+            </div>
+            <img src={data.images[0]} alt={`Imágen de ${data.title}`} />
           </div>
-          <img src={skin} alt="imagen del post" />
-        </div>
-        <div className={styles.gridContainer}>
-          <img src={skin} alt="imagen del post" className={styles.mainImage} />
-          <img src={skin} alt="imagen del post" className={styles.thumbnail} />
-          <img src={skin} alt="imagen del post" className={styles.thumbnail} />
-          <img src={skin} alt="imagen del post" className={styles.thumbnail} />
-        </div>
-        <div className={styles.textoDosContainer}>
-          <img src={skin} alt="imagen del post" />
-          <Text />
-        </div>
-        <div className={styles.bottomInfoContainer}>
-          <div className={styles.bottomLeftContainer}>
-            <div className={styles.itemContainer}>
-              <label htmlFor="progress">Project progress:</label>
-              <ProgressBar percentage={35} text={"35%"} />
+          <div className={styles.gridContainer}>
+            {data.images
+              .filter((_, index) => index >= 1 && index <= 4)
+              .map((img, index) => (
+                <img
+                  key={index}
+                  src={img}
+                  alt={`Imágen de ${data.title}`}
+                  className={index === 1 ? styles.mainImage : styles.thumbnail}
+                />
+              ))}
+          </div>
+          <div className={styles.textoDosContainer}>
+            <img src={data.images[4]} alt="imagen del post" />
+            <Text txt={data.secondTxtField} />
+          </div>
+          <div className={styles.bottomInfoContainer}>
+            <div className={styles.bottomLeftContainer}>
+              <div className={styles.itemContainer}>
+                <label htmlFor="progress">Project progress:</label>
+                <ProgressBar
+                  percentage={data.progress}
+                  text={`${data.progress}%`}
+                />
+              </div>
+              <div className={styles.itemContainer}>
+                <span>Game version:</span>
+                <span>{data.version}</span>
+              </div>
+              <div className={styles.itemContainer}>
+                <span>Resolution:</span>
+                <span>{data.resolution}</span>
+              </div>
+              <div className={styles.itemContainer}>
+                <span>Optifine:</span>
+                <span>{data.optifine}</span>
+              </div>
+              <div className={styles.itemContainer}>
+                <span>Release date:</span>
+                <span>Fecha automatica</span>
+              </div>
+              <div className={styles.itemContainer}>
+                <span>Last update:</span>
+                <span>Fecha automatica</span>
+              </div>
             </div>
-            <div className={styles.itemContainer}>
-              <span>Game version:</span>
-              <span>1.21.1</span>
-            </div>
-            <div className={styles.itemContainer}>
-              <span>Resolution:</span>
-              <span>16px 16px</span>
-            </div>
-            <div className={styles.itemContainer}>
-              <span>Optifine:</span>
-              <span>no/ yes / optional</span>
-            </div>
-            <div className={styles.itemContainer}>
-              <span>Release date:</span>
-              <span>Fecha automatica</span>
-            </div>
-            <div className={styles.itemContainer}>
-              <span>Last update:</span>
-              <span>Fecha automatica</span>
+            <div>
+              <button className={styles.btnDownload}>
+                Download
+                <img src={icDescarga} alt="icono de descarga" />
+              </button>
+              <ProgressBar
+                percentage={data.seconds}
+                text={`${data.seconds}s`}
+              />
             </div>
           </div>
           <div>
-            <button className={styles.btnDownload}>
-              Download
-              <img src={icDescarga} alt="icono de descarga" />
-            </button>
-            <ProgressBar percentage={40} text={"40s"} />
+            <Carousel images={[skin, skin, skin, skin, skin, skin]} />
           </div>
-        </div>
-        <div>
-          <Carousel images={[skin, skin, skin, skin, skin, skin]} />
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

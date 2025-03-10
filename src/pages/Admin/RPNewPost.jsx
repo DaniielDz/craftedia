@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TextEditor from "../../components/TextEditor";
 import styles from "../../styles/RPNewPost.module.css";
 import ImageGallery from "../../components/ImageGallery";
@@ -10,7 +10,7 @@ function RPNewPost() {
   const [images, setImages] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
-    category: "", // java/bedrok
+    category: "",
     firstTxt: "",
     secondTxt: "",
     progress: "",
@@ -31,7 +31,7 @@ function RPNewPost() {
   ];
 
   const arr2 = [
-    { label: "Download:", name: "download", placeholder: "Select File" },
+    { label: "Download:", name: "download", placeholder: "Mediafire Link" },
     { label: "Seconds:", name: "seconds", placeholder: "45" },
   ];
 
@@ -47,28 +47,13 @@ function RPNewPost() {
     setIsCreated(false);
     setMessage("");
 
-    if (formData.firstTxt.trim() === "") {
-      setMessage("Ingresa texto antes de enviarlo");
+    if (!validateForm()) {
+      return
     } else {
       try {
         const res = await create(formData, images);
         setIsCreated(true);
         setMessage(res);
-        // setImages([]);
-        // setFormData({
-        //   title: "",
-        //   category: "",
-        //   firstTxt: "",
-        //   secondTxt: "",
-        //   progress: "",
-        //   version: "",
-        //   resolution: "",
-        //   optifine: "",
-        //   download: "",
-        //   seconds: "",
-        //   tags: "",
-        //   embed: "",
-        // });
       } catch (error) {
         setMessage("Error al crear el post");
       }
@@ -78,6 +63,22 @@ function RPNewPost() {
       setIsCreated(false);
       setMessage("");
     }, 4000);
+  };
+  const validateForm = () => {
+    const requiredFields = ["title", "category", "firstTxt","secondTxt", "progress", "version", "resolution", "optifine", "download", "seconds", "tags", "embed"];
+    for (let field of requiredFields) {
+      if (!formData[field].trim()) {
+        setMessage(`Faltan datos`);
+        return false;
+      }
+    }
+
+    if (images.length === 0) {
+      setMessage("Debes incluir al menos una imagen en la galeria.")
+      return false
+    }
+
+    return true;
   };
 
   return (
@@ -92,14 +93,18 @@ function RPNewPost() {
           onChange={handleInputChange}
         />
         <h1 className={styles.title}>New Post</h1>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="java/bedrok"
+
+        <select
+          className={styles.select}
           name="category"
           value={formData.category}
           onChange={handleInputChange}
-        />
+        >
+          <option value={''} disabled>Java/Bedrok</option>
+          <option value="java">Java</option>
+          <option value="bedrok">Bedrok</option>
+        </select>
+
         <button onClick={handlePost} className={styles.btn}>
           Post
         </button>

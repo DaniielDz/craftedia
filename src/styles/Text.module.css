@@ -1,4 +1,6 @@
 .text {
+    width: 100%;
+    max-width: 50rem;
     margin-top: 2rem;
     color: #1b1a1d;
 }

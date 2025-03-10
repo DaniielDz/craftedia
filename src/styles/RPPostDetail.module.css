@@ -7,8 +7,17 @@
 
 .textoUnoContainer img,
 .textoDosContainer img {
+    margin-top: 10rem;
     width: 20rem;
     height: 20rem;
+    border-radius: 1rem;
+    object-fit: cover;
+}
+.textoUnoContainer,
+.textoDosContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
 }
 
 .title {
@@ -24,18 +33,27 @@
     grid-template-rows: repeat(3, 1fr);
     gap: 10px;
 }
+.gridContainer img {
+    border-radius: 1rem;
+}
 
 .mainImage {
     width: 100%;
     height: 100%;
+    max-width: 62.6rem;
+    max-height: 62.6rem;
     grid-column: 1;
     grid-row: 1 / span 3;
+    object-fit: cover;
 }
 
 .thumbnail {
     width: 100%;
     height: 100%;
+    max-width: 19.1rem;
+    max-height: 19.1rem;
     grid-column: 2;
+    object-fit: cover;
 }
 
 .bottomInfoContainer {
@@ -85,7 +103,7 @@ label {
 
 @media (min-width: 768px) {
     .sectionContain {
-        max-width: 50%;
+        max-width: 55%;
     }
 
     .title {
@@ -94,10 +112,15 @@ label {
 
     .textoUnoContainer img,
     .textoDosContainer img {
-        width: auto;
-        height: auto;
+        width: 100%;
+        height: 100%;
         max-width: 41rem;
         max-height: 41rem;
+    }
+
+    .gridContainer {
+        width: 80%;
+        margin: 10rem auto;
     }
 
     .bottomInfoContainer {

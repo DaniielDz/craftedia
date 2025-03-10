@@ -1,10 +1,28 @@
 import { Link } from "react-router";
 import bgImg from "../assets/roundedBg.png";
-import skinImg from "../assets/skin.png";
 import styles from "../styles/InnerPage.module.css";
+import { useEffect, useState } from "react";
+import { getAll } from "../api/postApi";
+import Pagination from "../components/Pagination";
 
 function InnerPage() {
-    const myArray = [1,2,3,4,5,6]
+  const [posts, setPosts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  async function fetchData() {
+    const result = await getAll(currentPage);
+    setPosts(result.data);
+    setTotalPages(result.totalPages);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [currentPage]);
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <div className={styles.container}>
@@ -16,28 +34,29 @@ function InnerPage() {
         </div>
       </section>
       <section className={styles.gridSection}>
-        {
-            myArray.map(num => (
-                <Link key={num} to={'/'} className={styles.imageContainer}>
-                <img
-                  src={skinImg}
-                  alt="Portada del post"
-                  className={styles.gridImage}
-                />
-                <div className={styles.overlayText}>
-                  <p>Título del proyecto</p>
-                  <span>Etiquetas</span>
-                </div>
-              </Link>
-            ))
-        }   
+        {posts.map((post) => (
+          <Link
+            key={post.id}
+            to={`/resourcepacks/java/${post.id}`}
+            className={styles.imageContainer}
+          >
+            <img
+              src={post.images[0]}
+              alt="Portada del post"
+              className={styles.gridImage}
+            />
+            <div className={styles.overlayText}>
+              <p>{post.title}</p>
+              <span>{post.tags}</span>
+            </div>
+          </Link>
+        ))}
       </section>
-      <nav className={styles.navigationContainer}>
-        <Link to={"#"}>1</Link>
-        <Link to={"#"}>2</Link>
-        <span>...</span>
-        <Link to={"#"}>8</Link>
-      </nav>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

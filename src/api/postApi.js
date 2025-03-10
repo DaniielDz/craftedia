@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/post/"
+const API_URL = "http://localhost:3000/api/post"
 
 export const create = async (formData, images) => {
     try {
@@ -45,7 +45,7 @@ export const create = async (formData, images) => {
 
 export const getById = async (id) => {
     try {
-        const response = await fetch(`${API_URL}${id}`)
+        const response = await fetch(`${API_URL}/${id}`)
         const data = await response.json()
 
         if (!response.ok) {
@@ -53,8 +53,22 @@ export const getById = async (id) => {
         }
 
         return data.data
-
     } catch (error) {
         throw new Error(error || "Error de conexión con el servidor")
+    }
+}
+
+export const getAll = async (page) => {
+    try {
+        const response = await fetch(`${API_URL}?page=${page}&limit=10`)
+        const data = await response.json()
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al obtener los datos")
+        }
+
+        return data
+    } catch (error) {
+        throw new Error(error.message || "Error de conexión con el servidor")
     }
 }
