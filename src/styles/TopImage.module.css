@@ -10,6 +10,6 @@
 
 .sectionImg img {
     height: auto;
-    max-height: 81rem;
-    object-fit: unset;
+    max-height: 65rem;
+    object-fit: cover;
 }

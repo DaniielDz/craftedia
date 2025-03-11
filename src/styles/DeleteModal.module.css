@@ -84,6 +84,12 @@
     background-color: #2d2a30;
 }
 
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+  }
+
 @media (min-width: 768px) {
     .modal {
         max-width: 60rem;

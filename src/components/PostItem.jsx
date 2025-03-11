@@ -1,27 +1,51 @@
 import { Link } from "react-router";
 import styles from "../styles/PostItem.module.css";
-import postImg from "../assets/skin.png";
 import IC_Edit from "../assets/IC_edit.svg";
 import IC_Show from "../assets/IC_watch.svg";
 import IC_Trash from "../assets/IC_trash.svg";
 import DeleteModal from "./DeleteModal";
 import { useState } from "react";
+import { deletePost } from "../api/postApi";
 
-function PostItem() {
+function PostItem({ post, onDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleConfirm = async () => {
+    setIsDeleting(true);
+    setError(null);
+
+    try {
+      const result = await deletePost(post.id);
+      
+      if (result.success) {
+        onDelete(post.id); // Notificar al componente padre que el post fue eliminado
+      } else {
+        setError(result.message || "Error al eliminar el post");
+      }
+    } catch (error) {
+      setError("Error al eliminar el post");
+    } finally {
+      setIsDeleting(false);
+      setIsModalOpen(false);
+    }
+  };
 
   return (
     <div className={styles.postCard}>
       <div className={styles.postCard__imageContainer}>
         <img
           className={styles.postCard__image}
-          src={postImg}
-          alt="Post image"
+          src={post.images[0]}
+          alt={`Imagen del post "${post.title}"`}
         />
       </div>
       <div className={styles.postCard__content}>
-        <h2 className={styles.postCard__title}>Título del proyecto</h2>
-        <p className={styles.postCard__body}>JAVA Publicado 2 abril 2024</p>
+        <h2 className={styles.postCard__title}>{post.title}</h2>
+        <p className={styles.postCard__body}>
+          {post.path.toUpperCase()} Publicado 2 abril 2024
+        </p>
         <ul className={styles.postCard__tags}>
           <li className={styles.postCard__tag}>etiqueta</li>
           <li className={styles.postCard__tag}>etiqueta</li>
@@ -30,7 +54,10 @@ function PostItem() {
         </ul>
       </div>
       <div className={styles.postCard__actions}>
-        <Link className={styles.postCard__action} to="/post/1">
+        <Link
+          className={styles.postCard__action}
+          to={`/admin/resourcepacks/edit-post/${post.id}`}
+        >
           <img
             className={styles.postCard__actionIcon}
             src={IC_Edit}
@@ -39,7 +66,7 @@ function PostItem() {
         </Link>
         <Link
           className={`${styles.postCard__action} ${styles.postCard__actionShow}`}
-          to="/post/1"
+          to={`/resourcepacks/${post.path}/${post.id}`}
         >
           <img
             className={styles.postCard__actionIcon}
@@ -60,7 +87,9 @@ function PostItem() {
         <DeleteModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
-          onConfirm={() => setIsModalOpen(false)}
+          onConfirm={handleConfirm}
+          isDeleting={isDeleting}
+          error={error}
         />
       </div>
     </div>

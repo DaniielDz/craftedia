@@ -4,9 +4,9 @@ export const create = async (formData, images) => {
     try {
         const {
             title,
-            category,
-            firstTxt,
-            secondTxt,
+            path,
+            firstTxtField,
+            secondTxtField,
             progress,
             version,
             resolution,
@@ -21,9 +21,9 @@ export const create = async (formData, images) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 title,
-                category,
-                firstTxt,
-                secondTxt,
+                path,
+                firstTxtField,
+                secondTxtField,
                 progress,
                 version,
                 resolution,
@@ -58,9 +58,9 @@ export const getById = async (id) => {
     }
 }
 
-export const getAll = async (page) => {
+export const getAll = async (page = 1, path = '') => {
     try {
-        const response = await fetch(`${API_URL}?page=${page}&limit=10`)
+        const response = await fetch(`${API_URL}?page=${page}&limit=10&path=${path}`)
         const data = await response.json()
 
         if (!response.ok) {
@@ -70,5 +70,46 @@ export const getAll = async (page) => {
         return data
     } catch (error) {
         throw new Error(error.message || "Error de conexión con el servidor")
+    }
+}
+
+export const update = async (id, changedFields, newImages) => {
+    const response = await fetch(`${API_URL}/${id}`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            ...changedFields, // Campos modificados
+            newImages, // Imágenes nuevas
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error al actualizar el post");
+    }
+
+    const data = await response.json();
+    return data.message; // Mensaje de éxito
+};
+
+export const deletePost = async (id) => {
+    try {
+        const response = await fetch(`${API_URL}/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.message || "Error al eliminar el post");
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        throw new Error(error.message || "Error de conexión con el servidor");
     }
 }

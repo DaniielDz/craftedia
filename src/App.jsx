@@ -89,6 +89,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path="/admin/resourcepacks" element={<AdminResPacks />} />
           <Route path="/admin/resourcepacks/new-post" element={<RPNewPost />} />
+          <Route path="/admin/resourcepacks/edit-post/:id" element={<RPNewPost />} />
           <Route path="/admin/portfolio" element={<AdminPortfolio />} />
           <Route path="/admin/portfolio/new-post" element={<PFNewPost />} />
         </Route>
