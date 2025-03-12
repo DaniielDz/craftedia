@@ -7,17 +7,13 @@ function AdminForm({ isLogin }) {
   const { login, singUp } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
+  const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null)
-    if( !email.includes("@") || !email.includes(".") ){
-      setError("Email no valido")
-      return;
-    }
     if(password.length < 6){
       setError("La contraseña debe tener al menos 6 caracteres")
       return;
@@ -25,10 +21,10 @@ function AdminForm({ isLogin }) {
 
     try {
       if (isLogin) {
-        await login(email, password);
+        await login(username, password);
       }
       else {
-        await singUp(email, password);
+        await singUp(username, password);
       }
 
       navigate("/admin/panel");
@@ -44,10 +40,10 @@ function AdminForm({ isLogin }) {
       <input
         className={styles.input}
         type="text"
-        value={email}
-        placeholder="Email"
+        value={username}
+        placeholder="username"
         required
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => setUserName(e.target.value)}
       />
       <input
         className={styles.input}

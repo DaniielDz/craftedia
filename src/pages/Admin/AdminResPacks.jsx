@@ -10,13 +10,14 @@ function AdminResPacks() {
   const [totalPages, setTotalPages] = useState(1);
 
   async function fetchData() {
-    const result = await getAll(currentPage);
+    const result = await getAll("respacks",currentPage);
+    
     setPosts(result.data);
     setTotalPages(result.totalPages);
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData();    
   }, [currentPage]);
 
   const handlePageChange = (newPage) => {

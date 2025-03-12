@@ -92,6 +92,7 @@ function App() {
           <Route path="/admin/resourcepacks/edit-post/:id" element={<RPNewPost />} />
           <Route path="/admin/portfolio" element={<AdminPortfolio />} />
           <Route path="/admin/portfolio/new-post" element={<PFNewPost />} />
+          <Route path="/admin/portfolio/edit-post/:id" element={<PFNewPost />} />
         </Route>
       </Route>
     </Routes>

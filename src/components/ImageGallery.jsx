@@ -81,7 +81,7 @@ const ImageGallery = ({images, setImages}) => {
         </div>
       </div>
       <div className={styles.imageGrid}>
-        {images.map((image, index) => (
+        {images && images.map((image, index) => (
           <div
             key={index}
             className={styles.imageItem}

@@ -1,6 +1,6 @@
 const API_URL = "http://localhost:3000/api/auth";
 
-export const loginRequest = async (email, password) => {
+export const loginRequest = async (username, password) => {
     try {
         const response = await fetch(`${API_URL}/login`, {
             method: "POST",
@@ -8,7 +8,7 @@ export const loginRequest = async (email, password) => {
                 "Content-Type": "application/json",
             },
             credentials: "include", // Incluye las cookies en la solicitud
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, password }),
         });
 
         if (!response.ok) {
@@ -26,7 +26,7 @@ export const loginRequest = async (email, password) => {
     }
 };
 
-export const singUpRequest = async (email, password) => {
+export const singUpRequest = async (username, password) => {
     try {
         const response = await fetch(`${API_URL}/register`, {
             method: "POST",
@@ -34,7 +34,7 @@ export const singUpRequest = async (email, password) => {
                 "Content-Type": "application/json",
             },
             credentials: "include",
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ username, password }),
         });
 
         if (!response.ok) {

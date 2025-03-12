@@ -3,7 +3,7 @@ import TextEditor from "../../components/TextEditor";
 import styles from "../../styles/RPNewPost.module.css";
 import ImageGallery from "../../components/ImageGallery";
 import { create, getById, update } from "../../api/postApi";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 function RPNewPost() {
   const [isCreated, setIsCreated] = useState(false);
@@ -12,19 +12,20 @@ function RPNewPost() {
   const [formData, setFormData] = useState({
     title: "",
     path: "",
-    firstTxtField: "",
-    secondTxtField: "",
+    firstTxt: "",
+    secondTxt: "",
     progress: "",
     version: "",
     resolution: "",
-    optifine: "",
-    download: "",
+    dwnFileLink: "",
     seconds: "",
-    tags: "",
+    optifine: "",
     embed: "",
+    tags: [],
   });
+
   const [initialFormData, setInitialFormData] = useState(null);
-  const [initialImages, setInitialImages] = useState([]); // Estado inicial de las imágenes
+  const navigate = useNavigate()
 
   const location = useLocation();
   const isEditPage = location.pathname.includes("edit-post");
@@ -38,7 +39,7 @@ function RPNewPost() {
   ];
 
   const arr2 = [
-    { label: "Download:", name: "download", placeholder: "Mediafire Link" },
+    { label: "Download:", name: "dwnFileLink", placeholder: "Mediafire Link" },
     { label: "Seconds:", name: "seconds", placeholder: "45" },
   ];
 
@@ -49,39 +50,40 @@ function RPNewPost() {
   }, [isEditPage]);
 
   async function getPost() {
-    const res = await getById(id);
-    console.log(res.path);
+    const res = await getById("respacks",id);  
+    const imagesURL = res.images.map(img => img.image_url)
     
-    setInitialImages(res.images);
-    setImages(res.images);
+    const tagsStr = res.tags.map(tag => tag.name).join(",")
+
+    setImages(imagesURL || []);
     setInitialFormData({
       title: res.title || "",
       path: res.path || "",
-      firstTxtField: res.firstTxtField || "",
-      secondTxtField: res.secondTxtField || "",
+      firstTxt: res.firstTxt || "",
+      secondTxt: res.secondTxt || "",
       progress: res.progress || "",
       version: res.version || "",
       resolution: res.resolution || "",
-      optifine: res.optifine || "",
-      download: res.download || "",
+      dwnFileLink: res.dwnFileLink || "",
       seconds: res.seconds || "",
-      tags: res.tags || "",
+      optifine: res.optifine || "",
       embed: res.embed || "",
+      tags: tagsStr || "",
     });
 
     setFormData({
       title: res.title || "",
       path: res.path || "",
-      firstTxtField: res.firstTxtField || "",
-      secondTxtField: res.secondTxtField || "",
+      firstTxt: res.firstTxt || "",
+      secondTxt: res.secondTxt || "",
       progress: res.progress || "",
       version: res.version || "",
       resolution: res.resolution || "",
-      optifine: res.optifine || "",
-      download: res.download || "",
+      dwnFileLink: res.dwnFileLink || "",
       seconds: res.seconds || "",
-      tags: res.tags || "",
+      optifine: res.optifine || "",
       embed: res.embed || "",
+      tags: tagsStr || "",
     });
   }
 
@@ -89,15 +91,11 @@ function RPNewPost() {
     const changedFields = {};
 
     for (const key in formData) {
-      if (formData[key] !== initialFormData[key]) {
+      if (formData[key] !== initialFormData[key] && key !== "tags") {
         changedFields[key] = formData[key];
       }
     }
     return changedFields;
-  };
-
-  const getNewImages = () => {
-    return images.filter((image) => !initialImages.includes(image));
   };
 
   const handleInputChange = (e) => {
@@ -105,6 +103,17 @@ function RPNewPost() {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+    }));
+  };
+
+  const handleTagsChange = (e) => {
+    const { name, value } = e.target;
+
+    const tags = value.split(",").map((element) => element.trim());
+
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: tags,
     }));
   };
 
@@ -116,16 +125,23 @@ function RPNewPost() {
     //   return;
     // }
 
+    // if (images.length < 6) {
+    //   setMessage("Debes cargar 6 imagenes como minimo");
+    //   return;
+    // }
+
     try {
       let res;
-      if (isEditPage) {
-        const changedFields = getChangedFields();        
-        const newImages = getNewImages();
 
-        res = await update(id, changedFields, newImages);
+      if (isEditPage) {
+        const changedFields = getChangedFields();
+        
+        res = await update(id, "respacks",changedFields, images, formData.tags);
       } else {
-        res = await create(formData, images);
+        res = await create("resourcepacks", formData, images);
       }
+
+      navigate("/admin/resourcepacks")
 
       setIsCreated(true);
       setMessage(res);
@@ -213,15 +229,15 @@ function RPNewPost() {
       )}
 
       <TextEditor
-        value={formData.firstTxtField}
+        value={formData.firstTxt}
         onChange={(value) =>
-          setFormData((prevData) => ({ ...prevData, firstTxtField: value }))
+          setFormData((prevData) => ({ ...prevData, firstTxt: value }))
         }
       />
       <TextEditor
-        value={formData.secondTxtField}
+        value={formData.secondTxt}
         onChange={(value) =>
-          setFormData((prevData) => ({ ...prevData, secondTxtField: value }))
+          setFormData((prevData) => ({ ...prevData, secondTxt: value }))
         }
       />
 
@@ -265,7 +281,7 @@ function RPNewPost() {
             placeholder="TAGS: java, 2d, 3d, bedrock, low poly, blockbench, photoshop, optifine, no optifine, "
             name="tags"
             value={formData.tags}
-            onChange={handleInputChange}
+            onChange={handleTagsChange}
           />
           <input
             className={styles.input}

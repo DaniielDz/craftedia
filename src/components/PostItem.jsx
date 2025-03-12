@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import styles from "../styles/PostItem.module.css";
 import IC_Edit from "../assets/IC_edit.svg";
 import IC_Show from "../assets/IC_watch.svg";
@@ -12,15 +12,20 @@ function PostItem({ post, onDelete }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState(null);
 
+  const path = useLocation();
+  const isResPacks = path.pathname.includes("resourcepacks");
+  const type = isResPacks ? "respacks" : "portfolio";
+  const page = isResPacks ? "resourcepacks" : "portfolio";
+
   const handleConfirm = async () => {
     setIsDeleting(true);
     setError(null);
 
     try {
-      const result = await deletePost(post.id);
-      
+      const result = await deletePost(post.id, type);
+
       if (result.success) {
-        onDelete(post.id); // Notificar al componente padre que el post fue eliminado
+        onDelete(post.id); 
       } else {
         setError(result.message || "Error al eliminar el post");
       }
@@ -44,19 +49,21 @@ function PostItem({ post, onDelete }) {
       <div className={styles.postCard__content}>
         <h2 className={styles.postCard__title}>{post.title}</h2>
         <p className={styles.postCard__body}>
-          {post.path.toUpperCase()} Publicado 2 abril 2024
+          {post.path && post.path.toUpperCase()} Publicado 2 abril 2024
         </p>
         <ul className={styles.postCard__tags}>
-          <li className={styles.postCard__tag}>etiqueta</li>
-          <li className={styles.postCard__tag}>etiqueta</li>
-          <li className={styles.postCard__tag}>etiqueta</li>
-          <li className={styles.postCard__tag}>etiqueta</li>
+          {post.tags  &&
+            post.tags.map((tag, index) => (
+              <li key={index} className={styles.postCard__tag}>
+                {tag}
+              </li>
+            ))}
         </ul>
       </div>
       <div className={styles.postCard__actions}>
         <Link
           className={styles.postCard__action}
-          to={`/admin/resourcepacks/edit-post/${post.id}`}
+          to={`/admin/${page}/edit-post/${post.id}`}
         >
           <img
             className={styles.postCard__actionIcon}
@@ -66,7 +73,11 @@ function PostItem({ post, onDelete }) {
         </Link>
         <Link
           className={`${styles.postCard__action} ${styles.postCard__actionShow}`}
-          to={`/resourcepacks/${post.path}/${post.id}`}
+          to={
+            isResPacks
+              ? `/resourcepacks/${post.path}/${post.id}`
+              : `/portfolio/2d/${post.id}`
+          }
         >
           <img
             className={styles.postCard__actionIcon}

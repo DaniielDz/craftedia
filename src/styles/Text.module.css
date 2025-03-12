@@ -1,12 +1,10 @@
 .text {
     width: 100%;
     max-width: 50rem;
-    margin-top: 2rem;
     color: #1b1a1d;
 }
 
 .text div {
-    margin-top: 4rem;
     font-size: 160%;
 }
 .text div iframe {

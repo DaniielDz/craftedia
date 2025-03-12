@@ -39,6 +39,7 @@
     border: none;
     cursor: pointer;
 }
+
 .select option {
     cursor: pointer;
 }
@@ -113,6 +114,15 @@
     color: #721c24;
 }
 
+.pfInpContainer {
+    width: 70%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
 @media (min-width:768px) {
     .container {
         max-width: 150rem;
@@ -138,5 +148,17 @@
         margin-top: 5rem;
         display: flex;
         justify-content: space-around;
+    }
+
+    .pfInpContainer {
+        flex-direction: row;
+    }
+    .pfInpContainer textarea{
+        width: 40rem;
+        height: 15rem;
+    }
+
+    .pfGalleryContainer {
+        width: 40rem;
     }
 }

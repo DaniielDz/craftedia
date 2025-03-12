@@ -26,7 +26,8 @@ function InnerPage() {
   // Función para obtener los datos
   async function fetchData() {
     try {
-      const result = await getAll(currentPage, path);
+      const type = resPacks ? "respacks" : "portfolio"
+      const result = await getAll(type,currentPage, path);
       setPosts(result.data);
       setTotalPages(result.totalPages);
     } catch (error) {

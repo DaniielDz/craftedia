@@ -16,10 +16,8 @@ function PostDetail() {
   const postId = parseInt(currentUrl.split("/").pop());
 
   const getData = async () => {
-    const res = await getById(postId);
-
+    const res = await getById("respacks", postId);    
     setData(res);
-    
   };
 
   useEffect(() => {
@@ -34,9 +32,9 @@ function PostDetail() {
           <div className={styles.textoUnoContainer}>
             <div className={styles.textoUnoText}>
               <h1 className={styles.title}>{data.title}</h1>
-              {data && <Text txt={data.firstTxtField} />}
+              {data && <Text txt={data.firstTxt} />}
             </div>
-            <img src={data.images[0]} alt={`Imágen de ${data.title}`} />
+            <img src={data.images[0].image_url} alt={`Imágen de ${data.title}`} />
           </div>
           <div className={styles.gridContainer}>
             {data.images
@@ -44,15 +42,15 @@ function PostDetail() {
               .map((img, index) => (
                 <img
                   key={index}
-                  src={img}
+                  src={img.image_url}
                   alt={`Imágen de ${data.title}`}
                   className={index === 1 ? styles.mainImage : styles.thumbnail}
                 />
               ))}
           </div>
           <div className={styles.textoDosContainer}>
-            <img src={data.images[4]} alt="imagen del post" />
-            <Text txt={data.secondTxtField} />
+            <img src={data.images[4].image_url} alt="imagen del post" />
+            <Text txt={data.secondTxt} />
           </div>
           <div className={styles.bottomInfoContainer}>
             <div className={styles.bottomLeftContainer}>
