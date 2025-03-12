@@ -16,7 +16,7 @@ function PostDetail() {
   const postId = parseInt(currentUrl.split("/").pop());
 
   const getData = async () => {
-    const res = await getById("respacks", postId);    
+    const res = await getById("respacks", postId);
     setData(res);
   };
 
@@ -34,22 +34,30 @@ function PostDetail() {
               <h1 className={styles.title}>{data.title}</h1>
               {data && <Text txt={data.firstTxt} />}
             </div>
-            <img src={data.images[0].image_url} alt={`Imágen de ${data.title}`} />
+            <img
+              src={data.images[0].image_url}
+              alt={`Imágen de ${data.title}`}
+            />
           </div>
           <div className={styles.gridContainer}>
-            {data.images
-              .filter((_, index) => index >= 1 && index <= 4)
-              .map((img, index) => (
-                <img
-                  key={index}
-                  src={img.image_url}
-                  alt={`Imágen de ${data.title}`}
-                  className={index === 1 ? styles.mainImage : styles.thumbnail}
-                />
-              ))}
+            {data.images.length > 1 &&
+              data.images
+                .filter((_, index) => index >= 1 && index <= 4)
+                .map((img, index) => (
+                  <img
+                    key={index}
+                    src={img.image_url}
+                    alt={`Imágen de ${data.title}`}
+                    className={
+                      index === 1 ? styles.mainImage : styles.thumbnail
+                    }
+                  />
+                ))}
           </div>
           <div className={styles.textoDosContainer}>
-            <img src={data.images[4].image_url} alt="imagen del post" />
+            {data.images[4] && (
+              <img src={data.images[4].image_url} alt="imagen del post" />
+            )}
             <Text txt={data.secondTxt} />
           </div>
           <div className={styles.bottomInfoContainer}>

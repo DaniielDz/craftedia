@@ -6,7 +6,6 @@ import { create, getById, update } from "../../api/postApi";
 import { useLocation, useNavigate, useParams } from "react-router";
 
 function RPNewPost() {
-  const [isCreated, setIsCreated] = useState(false);
   const [message, setMessage] = useState("");
   const [images, setImages] = useState([]);
   const [formData, setFormData] = useState({
@@ -118,17 +117,10 @@ function RPNewPost() {
   };
 
   const handlePost = async () => {
-    setIsCreated(false);
     setMessage("");
-
-    // if (!validateForm()) {
-    //   return;
-    // }
-
-    // if (images.length < 6) {
-    //   setMessage("Debes cargar 6 imagenes como minimo");
-    //   return;
-    // }
+    if (!validateForm()) {
+      return;
+    }
 
     try {
       let res;
@@ -142,48 +134,48 @@ function RPNewPost() {
       }
 
       navigate("/admin/resourcepacks")
-
-      setIsCreated(true);
-      setMessage(res);
     } catch (error) {
       setMessage("Error al crear/editar el post");
     }
-
-    setTimeout(() => {
-      setIsCreated(false);
-      setMessage("");
-    }, 4000);
   };
 
-  // const validateForm = () => {
-  //   const requiredFields = [
-  //     "title",
-  //     "path",
-  //     "firstTxt",
-  //     "secondTxt",
-  //     "progress",
-  //     "version",
-  //     "resolution",
-  //     "optifine",
-  //     "download",
-  //     "seconds",
-  //     "tags",
-  //     "embed"
-  //   ];
-  //   for (let field of requiredFields) {
-  //     if (!formData[field].trim()) {
-  //       setMessage(`Faltan datos`);
-  //       return false;
-  //     }
-  //   }
+  const validateForm = () => {
+    const requiredFields = [
+      "title",
+      "firstTxt",
+      "secondTxt",
+      "progress",
+      "version",
+      "resolution",
+      "optifine",
+      "dwnFileLink",
+      "seconds",
+      "embed"
+    ];
+    for (let field of requiredFields) {
+      if (!formData[field].trim()) {
+        setMessage(`Faltan datos`);
+        return false;
+      }
+    }
 
-  //   if (images.length === 0) {
-  //     setMessage("Debes incluir al menos una imagen en la galeria.");
-  //     return false;
-  //   }
+    if(formData.path === "") {
+      setMessage("Debes seleccionar una opcion Java o Bedrock")
+      return false
+    }
 
-  //   return true;
-  // };
+    if(formData.tags.length === 0) {
+      setMessage("Debes incluir al menos una etiqueta.");
+      return false;
+    }
+
+    if (images.length === 0) {
+      setMessage("Debes incluir al menos una imagen en la galeria.");
+      return false;
+    }
+
+    return true;
+  };
 
   return (
     <div className={styles.container}>
@@ -220,9 +212,7 @@ function RPNewPost() {
 
       {message && (
         <p
-          className={`${styles.message} ${
-            !isCreated ? styles.messageError : ""
-          }`}
+          className={styles.message}
         >
           {message}
         </p>

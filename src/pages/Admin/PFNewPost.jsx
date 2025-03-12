@@ -63,8 +63,10 @@ function PFNewPost() {
   };
 
   const handlePost = async () => {
-    setIsCreated(false);
-    setMessage("");
+    setMessage("")
+    if(!validateForm()) {
+      return;
+    }
 
     try {
       let res;
@@ -82,11 +84,6 @@ function PFNewPost() {
     } catch (error) {
       setMessage("Error al crear/editar el post");
     }
-
-    setTimeout(() => {
-      setIsCreated(false);
-      setMessage("");
-    }, 4000);
   };
 
   const handleTagsChange = (e) => {
@@ -109,6 +106,38 @@ function PFNewPost() {
       }
     }
     return changedFields;
+  };
+
+  const validateForm = () => {
+    const requiredFields = [
+      "title",
+      "text",
+      "embed"
+    ];
+
+    for (let field of requiredFields) {
+      if (!formData[field].trim()) {
+        setMessage(`Faltan datos`);
+        return false;
+      }
+    }
+
+    if(formData.path === "") {
+      setMessage("Debes seleccionar una opcion 2D o 3D")
+      return false
+    }
+
+    if(formData.tags.length === 0) {
+      setMessage("Debes incluir al menos una etiqueta.");
+      return false;
+    }
+
+    if (images.length === 0) {
+      setMessage("Debes incluir al menos una imagen en la galeria.");
+      return false;
+    }
+
+    return true;
   };
 
   return (
