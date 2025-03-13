@@ -17,11 +17,12 @@ html {
 }
 
 main {
-    padding-top: 6rem;
+    padding: 6rem 0 15rem;
+    min-height: 50rem;
 }
 
 @media (min-width: 1024px) {
     main {
-        padding-top: 7rem;
+        padding: 6rem 0 15rem;
     }
 }

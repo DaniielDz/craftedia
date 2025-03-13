@@ -11,9 +11,10 @@ import styles from "../styles/Header.module.css";
 import { useContext, useState } from "react";
 import { ScrollContext } from "../context/ScrollContext";
 import Search from "../components/Search";
+import { ThemeContext } from "../context/ThemeContext";
 
 function Header() {
-  const [isSwitchOn, setIsSwitchOn] = useState(false); // SERÁ EL ESTADO GLOBAL PARA EL MODO CLARO - MODO OSCURO
+  const { isDarkMode, toggleTheme } = useContext(ThemeContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isScrolled } = useContext(ScrollContext);
   const location = useLocation();
@@ -24,7 +25,7 @@ function Header() {
   const isAdminPortfolio = isAdmin && location.pathname.includes("/portfolio");
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isDarkMode && styles.headerDarkMode}`}>
       <div className={styles.logoContainer}>
         <Link to={"/"}>
           <img
@@ -62,7 +63,7 @@ function Header() {
           <div className={styles.navSection}>
             <div className={styles.navGroup}>
               <span className={styles.navTitle}>Resourcepacks</span>
-              <ul className={styles.navList}>
+              <ul className={`${styles.navList} ${isDarkMode && styles.navListDM}`}>
                 <li className={styles.navItem}>
                   <Link to={"/resourcepacks/java"} className={styles.navLink}>
                     Java
@@ -90,7 +91,7 @@ function Header() {
             </div>
             <div className={styles.navGroup}>
               <span className={styles.navTitle}>Portfolio</span>
-              <ul className={styles.navList}>
+              <ul className={`${styles.navList} ${isDarkMode && styles.navListDM}`}>
                 <li className={styles.navItem}>
                   <Link to={"/portfolio/2d"} className={styles.navLink}>
                     2D
@@ -133,12 +134,13 @@ function Header() {
                 type="checkbox"
                 id="switch"
                 className={styles.switch}
-                onClick={() => setIsSwitchOn(!isSwitchOn)}
+                checked={isDarkMode}
+                onChange={toggleTheme}
               />
               <label
                 htmlFor="switch"
                 className={`${styles.switchLabel} ${
-                  isSwitchOn ? styles.swOnDarkMode : styles.swOnLightMode
+                  isDarkMode ? styles.swOnDarkMode : styles.swOnLightMode
                 }`}
               ></label>
             </div>

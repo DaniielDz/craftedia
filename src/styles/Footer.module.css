@@ -1,7 +1,10 @@
 .footer {
-    margin-top: 20rem;
     padding: 5rem 4rem 3.2rem;
     background-color: #1B1A1D;
+}
+
+.footerDM {
+    background-color: #2A2536;
 }
 
 .footerContainer {

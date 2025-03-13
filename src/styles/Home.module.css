@@ -33,6 +33,14 @@
     background-color: #F9F9F9;
 }
 
+.absDM {
+    background-color: #1B1A1D;
+    color: #fff;
+}
+.abMeCDM {
+    color: #F9F9F9 !important;
+}
+
 .aboutMeHeader {
     padding: 2rem;
     display: flex;

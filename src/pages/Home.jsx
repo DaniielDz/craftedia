@@ -1,4 +1,5 @@
-import { ScrollContext } from "../context/ScrollContext.jsx"; 
+import { ScrollContext } from "../context/ScrollContext.jsx";
+import {ThemeContext} from "../context/ThemeContext.jsx" 
 import logo from "../assets/logo.svg";
 import heroImage from "../assets/homeHero.webp";
 import aboutMeImg from "../assets/aboutMeIcon.svg";
@@ -7,6 +8,8 @@ import { useContext } from "react";
 
 function Home() {
   const { isScrolled } = useContext(ScrollContext);
+  const { isDarkMode } = useContext(ThemeContext)
+
   return (
     <>
       <section className={styles.heroSection}>
@@ -17,12 +20,12 @@ function Home() {
         />
         <img className={`${styles.logo} ${isScrolled ? styles.logoScrolled : ""}`} src={logo} alt="Craftedia logo" />
       </section>
-      <section className={styles.aboutMeSection}>
+      <section className={`${styles.aboutMeSection} ${isDarkMode && styles.absDM}`}>
         <header className={styles.aboutMeHeader}>
           <img className={styles.aboutMeImg} src={aboutMeImg} alt="about me icon" />
           <h1 className={styles.aboutMeTitle}>About me.</h1>
         </header>
-        <div className={styles.aboutMeContain}>
+        <div className={`${styles.aboutMeContain} ${isDarkMode && styles.abMeCDM}`}>
           <p>
             Hi! I&apos;m Luis, but you can find me digitally as @Hakks, @H4kks,
             or @akks. I&apos;m a graphic designer with a passion for animation

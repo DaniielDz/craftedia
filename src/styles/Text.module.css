@@ -3,6 +3,9 @@
     max-width: 50rem;
     color: #1b1a1d;
 }
+.text.darkMode {
+    color: #fff;
+}
 
 .text div {
     font-size: 160%;

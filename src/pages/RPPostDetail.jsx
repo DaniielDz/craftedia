@@ -5,20 +5,37 @@ import ProgressBar from "../components/ProgressBar";
 import Carousel from "../components/Carousel";
 import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getById } from "../api/postApi";
 import { useLocation } from "react-router";
+import { ThemeContext } from "../context/ThemeContext";
 
 function PostDetail() {
   const [data, setData] = useState(null);
   const location = useLocation();
   const currentUrl = location.pathname;
   const postId = parseInt(currentUrl.split("/").pop());
+  const { isDarkMode } = useContext(ThemeContext);
 
   const getData = async () => {
-    const res = await getById("respacks", postId);
+    let res = await getById("respacks", postId);
+    res = {
+      ...res,
+      created_at: formatearFecha(res.created_at),
+      updated_at: formatearFecha(res.updated_at)
+    }    
     setData(res);
   };
+
+  function formatearFecha(fechaISO) {
+    const fecha = new Date(fechaISO);
+
+    const opciones = { day: "numeric", month: "long", year: "numeric" };
+
+    return fecha.toLocaleDateString("es-ES", opciones);
+  }
+
+
 
   useEffect(() => {
     getData();
@@ -31,7 +48,11 @@ function PostDetail() {
         <section className={styles.sectionContain}>
           <div className={styles.textoUnoContainer}>
             <div className={styles.textoUnoText}>
-              <h1 className={styles.title}>{data.title}</h1>
+              <h1
+                className={`${styles.title} ${isDarkMode && styles.darkMode}`}
+              >
+                {data.title}
+              </h1>
               {data && <Text txt={data.firstTxt} />}
             </div>
             <img
@@ -62,32 +83,56 @@ function PostDetail() {
           </div>
           <div className={styles.bottomInfoContainer}>
             <div className={styles.bottomLeftContainer}>
-              <div className={styles.itemContainer}>
+              <div
+                className={`${styles.itemContainer} ${
+                  isDarkMode && styles.darkMode
+                }`}
+              >
                 <label htmlFor="progress">Project progress:</label>
                 <ProgressBar
                   percentage={data.progress}
                   text={`${data.progress}%`}
                 />
               </div>
-              <div className={styles.itemContainer}>
+              <div
+                className={`${styles.itemContainer} ${
+                  isDarkMode && styles.darkMode
+                }`}
+              >
                 <span>Game version:</span>
                 <span>{data.version}</span>
               </div>
-              <div className={styles.itemContainer}>
+              <div
+                className={`${styles.itemContainer} ${
+                  isDarkMode && styles.darkMode
+                }`}
+              >
                 <span>Resolution:</span>
                 <span>{data.resolution}</span>
               </div>
-              <div className={styles.itemContainer}>
+              <div
+                className={`${styles.itemContainer} ${
+                  isDarkMode && styles.darkMode
+                }`}
+              >
                 <span>Optifine:</span>
                 <span>{data.optifine}</span>
               </div>
-              <div className={styles.itemContainer}>
+              <div
+                className={`${styles.itemContainer} ${
+                  isDarkMode && styles.darkMode
+                }`}
+              >
                 <span>Release date:</span>
-                <span>Fecha automatica</span>
+                <span>{data && data.created_at}</span>
               </div>
-              <div className={styles.itemContainer}>
+              <div
+                className={`${styles.itemContainer} ${
+                  isDarkMode && styles.darkMode
+                }`}
+              >
                 <span>Last update:</span>
-                <span>Fecha automatica</span>
+                <span>{data && data.updated_at}</span>
               </div>
             </div>
             <div>

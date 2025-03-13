@@ -8,6 +8,11 @@
     border-radius: .4rem;
 }
 
+.navigationContainer.darkMode {
+    color: #fff;
+    border: 1px solid #fff;
+}
+
 .navigationContainer a,
 .navigationContainer span {
     width: 2rem;
@@ -24,6 +29,10 @@
 .active {
     color: #F9F9F9 !important;
     background: #1B1A1D;
+}
+
+.active.darkMode {
+    background-color: #473579;
 }
 
 @media (min-width:1024px) {

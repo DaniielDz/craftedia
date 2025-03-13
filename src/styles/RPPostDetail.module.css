@@ -101,6 +101,11 @@ label {
     cursor: pointer;
 }
 
+.title.darkMode,
+.itemContainer.darkMode {
+    color: #fff !important;
+}
+
 @media (min-width: 768px) {
     .sectionContain {
         max-width: 55%;

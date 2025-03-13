@@ -17,6 +17,20 @@ function PostItem({ post, onDelete }) {
   const type = isResPacks ? "respacks" : "portfolio";
   const page = isResPacks ? "resourcepacks" : "portfolio";
 
+  post = {
+    ...post,
+    created_at: formatearFecha(post.created_at),
+    upadated_at: formatearFecha(post.updated_at),
+  };
+
+  function formatearFecha(fechaISO) {
+    const fecha = new Date(fechaISO);
+
+    const opciones = { day: "numeric", month: "long", year: "numeric" };
+
+    return fecha.toLocaleDateString("es-ES", opciones);
+  }
+
   const handleConfirm = async () => {
     setIsDeleting(true);
     setError(null);
@@ -25,7 +39,7 @@ function PostItem({ post, onDelete }) {
       const result = await deletePost(post.id, type);
 
       if (result.success) {
-        onDelete(post.id); 
+        onDelete(post.id);
       } else {
         setError(result.message || "Error al eliminar el post");
       }
@@ -49,10 +63,10 @@ function PostItem({ post, onDelete }) {
       <div className={styles.postCard__content}>
         <h2 className={styles.postCard__title}>{post.title}</h2>
         <p className={styles.postCard__body}>
-          {post.path && post.path.toUpperCase()} Publicado 2 abril 2024
+          {post.path && post.path.toUpperCase()} Publicado {post.created_at}
         </p>
         <ul className={styles.postCard__tags}>
-          {post.tags  &&
+          {post.tags &&
             post.tags.map((tag, index) => (
               <li key={index} className={styles.postCard__tag}>
                 {tag}

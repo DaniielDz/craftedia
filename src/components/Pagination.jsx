@@ -1,29 +1,32 @@
 import { Link } from "react-router";
 import styles from "../styles/Pagination.module.css";
+import { ThemeContext } from "../context/ThemeContext";
+import { useContext } from "react";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
+  const { isDarkMode } = useContext(ThemeContext);
   const handlePageChange = (newPage) => {
     onPageChange(newPage);
   };
 
   return (
-    <nav className={styles.navigationContainer}>
-      {/* Pagina anterior */}
-      { currentPage - 1 !== 0 &&(<Link
-        to={"#"}
-        className={`${styles.pageLink}`}
-        onClick={(e) => {
-          e.preventDefault();
-          handlePageChange(currentPage - 1);
-        }}
-      >
-        {currentPage - 1 }
-      </Link>)}
+    <nav className={`${styles.navigationContainer} ${isDarkMode && styles.darkMode}`}>
+      {currentPage - 1 !== 0 && (
+        <Link
+          to={"#"}
+          className={`${styles.pageLink}`}
+          onClick={(e) => {
+            e.preventDefault();
+            handlePageChange(currentPage - 1);
+          }}
+        >
+          {currentPage - 1}
+        </Link>
+      )}
 
-      {/* Página actual */}
       <Link
         to={"#"}
-        className={`${styles.pageLink} ${styles.active}`}
+        className={`${styles.pageLink} ${styles.active} ${isDarkMode && styles.darkMode}`}
         onClick={(e) => {
           e.preventDefault();
           handlePageChange(currentPage);
@@ -32,7 +35,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         {currentPage}
       </Link>
 
-      {/* Página siguiente */}
       {currentPage < totalPages && (
         <Link
           to={"#"}
