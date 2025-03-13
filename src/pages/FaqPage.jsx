@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import TopImageInfo from "../components/TopImageInfo";
 import styles from "../styles/FaqPage.module.css";
+import { ThemeContext } from "../context/ThemeContext.jsx";
 
 function FaqPage() {
   const textContain = [
@@ -33,11 +35,12 @@ function FaqPage() {
         "Of course yes, write me and we'll talk about it, I'm a graphic designer and I have a lot of experience in modeling and texturing, we can create something nice.",
     },
   ];
+  const { isDarkMode } = useContext(ThemeContext);
 
   return (
     <>
       <TopImageInfo />
-      <section className={styles.textSection}>
+      <section className={`${styles.textSection} ${isDarkMode && styles.darkMode}`}>
         <h1 className={styles.title}>Frequently Asked Questions</h1>
         <p className={styles.description}>
           In the following section are the answers to different questions that

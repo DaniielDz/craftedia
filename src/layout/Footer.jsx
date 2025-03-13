@@ -46,13 +46,13 @@ function Footer() {
         <section className={styles.infoSection}>
           <ul className={styles.infoLinks}>
             <li>
-              <Link to={"/"}>Terms</Link>
+              <Link to={"/terms-of-use"}>Terms</Link>
             </li>
             <li>
               <Link to={"/"}>Privacy</Link>
             </li>
             <li>
-              <Link to={"/"}>FAQ</Link>
+              <Link to={"/faq"}>FAQ</Link>
             </li>
           </ul>
           <p>

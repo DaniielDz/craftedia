@@ -1,5 +1,6 @@
 .quill {
     width: 80%;
+    background: #f7f7f7;
 }
 .ql-embed::before {
     content: "Embed";

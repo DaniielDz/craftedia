@@ -8,6 +8,17 @@
     border-radius: 1rem;
 }
 
+.postCard.darkMode {
+    border: 1px solid #f7f7f7;
+}
+
+.postCard.darkMode .postCard__title, .postCard.darkMode .postCard__body{
+    color: #f7f7f7;
+}
+.postCard.darkMode .postCard__tag  {
+    background-color: #2c2536;
+}
+
 .postCard__imageContainer {
     max-width: 15rem;
     max-height: 15rem;

@@ -4,13 +4,15 @@ import IC_Edit from "../assets/IC_edit.svg";
 import IC_Show from "../assets/IC_watch.svg";
 import IC_Trash from "../assets/IC_trash.svg";
 import DeleteModal from "./DeleteModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { deletePost } from "../api/postApi";
+import { ThemeContext } from "../context/ThemeContext";
 
 function PostItem({ post, onDelete }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState(null);
+  const { isDarkMode } = useContext(ThemeContext);
 
   const path = useLocation();
   const isResPacks = path.pathname.includes("resourcepacks");
@@ -52,7 +54,7 @@ function PostItem({ post, onDelete }) {
   };
 
   return (
-    <div className={styles.postCard}>
+    <div className={`${styles.postCard} ${isDarkMode && styles.darkMode}`}>
       <div className={styles.postCard__imageContainer}>
         <img
           className={styles.postCard__image}

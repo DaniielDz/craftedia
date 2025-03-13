@@ -3,11 +3,13 @@ import TopImage from "../components/TopImagePost";
 import Carousel from "../components/Carousel";
 import skin from "../assets/skin.png";
 import Text from "../components/Text";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { getById } from "../api/postApi";
+import { ThemeContext } from "../context/ThemeContext";
 
 function PFPostDetail() {
+  const { isDarkMode } = useContext(ThemeContext);
   const [data, setData] = useState({});
   const [imagesContainer, setImagesContainer] = useState([]);
   const { id } = useParams();
@@ -31,7 +33,7 @@ function PFPostDetail() {
     <>
       <TopImage />
 
-      <section className={styles.section}>
+      <section className={`${styles.section} ${isDarkMode && styles.darkMode}`}>
         <div className={styles.imagesContainer}>
           {imagesContainer &&
             imagesContainer.length > 0 &&
@@ -43,7 +45,7 @@ function PFPostDetail() {
               </div>
             ))}
         </div>
-        <div className={styles.textContainer}>
+        <div className={`${styles.textContainer} ${isDarkMode && styles.darkMode}`}>
           <h1>{data.title}</h1>
           <Text txt={data.text} />
         </div>

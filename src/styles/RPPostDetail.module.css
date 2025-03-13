@@ -2,6 +2,8 @@
     width: 100%;
     max-width: 90%;
     margin: 3rem auto 0;
+    padding-top: 4rem;
+    border-top: 1px solid #1b1a1d;
     overflow: hidden;
 }
 
@@ -104,6 +106,15 @@ label {
 .title.darkMode,
 .itemContainer.darkMode {
     color: #fff !important;
+}
+
+.btnDownload.darkMode {
+    background-color: #F7f7f7;
+    color: #1b1a1d;
+}
+
+.sectionContain.darkMode {
+    border-top: 1px solid #fff;
 }
 
 @media (min-width: 768px) {

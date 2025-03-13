@@ -8,6 +8,10 @@
     border-top: 1px solid #1b1a1d;
     color: #1b1a1d;
 }
+.textSection.darkMode {
+    border-top: 1px solid #f7f7f7;
+    color: #f7f7f7;
+}
 
 .title {
     font-size: 2rem;

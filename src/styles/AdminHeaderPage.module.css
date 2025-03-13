@@ -8,6 +8,20 @@
     border-top: 1px solid #1b1a1d;
 }
 
+.container.darkMode {
+    border-top: 1px solid #f7f7f7;
+}
+
+.container.darkMode .title {
+    color: #f7f7f7;
+}
+.container.darkMode .button {
+    background-color: #473579;
+}
+.container.darkMode .button:hover {
+    background-color: #2c2536;
+}
+
 .button {
     padding: 1rem 2rem;
     font-size: 1.4rem;

@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "../../src/styles/AdminForm.module.css";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
+import {ThemeContext} from "../context/ThemeContext"
 
 function AdminForm({ isLogin }) {
   const { login, singUp } = useAuth();
   const navigate = useNavigate();
+  const {isDarkMode} = useContext(ThemeContext)
+
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +38,7 @@ function AdminForm({ isLogin }) {
   };
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
+    <form className={`${styles.form} ${isDarkMode && styles.darkMode}`} onSubmit={handleSubmit}>
       {error && <div className={styles.error}>{error}</div>}
       <input
         className={styles.input}

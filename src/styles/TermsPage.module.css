@@ -1,7 +1,13 @@
 .termsSection {
     max-width: 90%;
     margin: 3rem auto 0;
+    padding-top: 4rem;
     color: #1b1a1d;
+}
+
+.termsSection.darkMode {
+    color: #f7f7f7;
+    border-top: 1px solid #f7f7f7;
 }
 
 .title {

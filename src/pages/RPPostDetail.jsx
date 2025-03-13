@@ -1,5 +1,6 @@
 import skin from "../assets/skin.png";
 import icDescarga from "../assets/descarga.svg";
+import icDescargaDM from "../assets/icDescargaDM.svg";
 import styles from "../styles/RPPostDetail.module.css";
 import ProgressBar from "../components/ProgressBar";
 import Carousel from "../components/Carousel";
@@ -45,7 +46,7 @@ function PostDetail() {
     <>
       <TopImage />
       {data && (
-        <section className={styles.sectionContain}>
+        <section className={`${styles.sectionContain} ${isDarkMode && styles.darkMode}`}>
           <div className={styles.textoUnoContainer}>
             <div className={styles.textoUnoText}>
               <h1
@@ -136,9 +137,9 @@ function PostDetail() {
               </div>
             </div>
             <div>
-              <button className={styles.btnDownload}>
+              <button className={`${styles.btnDownload} ${isDarkMode && styles.darkMode}`}>
                 Download
-                <img src={icDescarga} alt="icono de descarga" />
+                <img src={`${!isDarkMode ? icDescarga : icDescargaDM}`} alt="↓" />
               </button>
               <ProgressBar
                 percentage={data.seconds}
