@@ -1,15 +1,17 @@
 import { Link, useLocation } from "react-router";
 import bgImg from "../assets/roundedBg.png";
 import styles from "../styles/InnerPage.module.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getAll } from "../api/postApi";
 import Pagination from "../components/Pagination";
+import { ThemeContext } from "../context/ThemeContext";
 
 function InnerPage() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const location = useLocation();
+  const {isDarkMode} = useContext(ThemeContext)
 
   // Determinar la ruta actual
   const resPacks = location.pathname.includes("resourcepacks");
@@ -69,7 +71,7 @@ function InnerPage() {
           <h2>{resPacks ? "Resourcepacks" : "Portfolio"}</h2>
         </div>
       </section>
-      <section className={styles.gridSection}>
+      <section className={`${styles.gridSection} ${isDarkMode && styles.darkMode}`}>
         {posts.length > 0 ? (
           posts.map((post) => (
             <Link

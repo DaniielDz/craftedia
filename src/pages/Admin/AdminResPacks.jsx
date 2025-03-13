@@ -42,7 +42,18 @@ function AdminResPacks() {
       {posts.length > 0 ? (
         <PostsList posts={posts} onDelete={handleDelete} />
       ) : (
-        <h2>Crea el primer post</h2>
+        <h2
+          style={{
+            textAlign: "center",
+            fontSize: "2.4rem",
+            color: isDarkMode ? "#F9F9F9" : "#473579",
+            marginTop: "2rem",
+            fontWeight: "bolder",
+            height: "32.1rem",
+          }}
+        >
+          Crea el primer post
+        </h2>
       )}
 
       {totalPages > 1 && (
