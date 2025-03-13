@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from "react-router";
 
 function RPNewPost() {
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState("");
   const [images, setImages] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
@@ -24,7 +25,7 @@ function RPNewPost() {
   });
 
   const [initialFormData, setInitialFormData] = useState(null);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isEditPage = location.pathname.includes("edit-post");
@@ -49,10 +50,10 @@ function RPNewPost() {
   }, [isEditPage]);
 
   async function getPost() {
-    const res = await getById("respacks",id);  
-    const imagesURL = res.images.map(img => img.image_url)
-    
-    const tagsStr = res.tags.map(tag => tag.name).join(",")
+    const res = await getById("respacks", id);
+    const imagesURL = res.images.map((img) => img.image_url);
+
+    const tagsStr = res.tags.map((tag) => tag.name).join(",");
 
     setImages(imagesURL || []);
     setInitialFormData({
@@ -121,21 +122,31 @@ function RPNewPost() {
     if (!validateForm()) {
       return;
     }
-
+    
     try {
       let res;
-
+      
       if (isEditPage) {
+        setLoading("Guardando cambios...")
         const changedFields = getChangedFields();
-        
-        res = await update(id, "respacks",changedFields, images, formData.tags);
+
+        res = await update(
+          id,
+          "respacks",
+          changedFields,
+          images,
+          formData.tags
+        );
       } else {
+        setLoading("Creando post...")
         res = await create("resourcepacks", formData, images);
       }
 
-      navigate("/admin/resourcepacks")
+      navigate("/admin/resourcepacks");
     } catch (error) {
       setMessage("Error al crear/editar el post");
+    } finally {
+      setLoading(false)
     }
   };
 
@@ -150,21 +161,21 @@ function RPNewPost() {
       "optifine",
       "dwnFileLink",
       "seconds",
-      "embed"
+      "embed",
     ];
-    for (let field of requiredFields) {
-      if (!formData[field].trim()) {
+    for (let field of requiredFields) {      
+      if (!formData[field].toString().trim()) {        
         setMessage(`Faltan datos`);
         return false;
       }
     }
 
-    if(formData.path === "") {
-      setMessage("Debes seleccionar una opcion Java o Bedrock")
-      return false
+    if (formData.path === "") {
+      setMessage("Debes seleccionar una opcion Java o Bedrock");
+      return false;
     }
 
-    if(formData.tags.length === 0) {
+    if (formData.tags.length === 0) {
       setMessage("Debes incluir al menos una etiqueta.");
       return false;
     }
@@ -210,13 +221,8 @@ function RPNewPost() {
         </button>
       </div>
 
-      {message && (
-        <p
-          className={styles.message}
-        >
-          {message}
-        </p>
-      )}
+      {message && <p className={styles.message}>{message}</p>}
+      {loading && <p className={styles.loadingMessage}>{loading}</p>}
 
       <TextEditor
         value={formData.firstTxt}

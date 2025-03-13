@@ -8,6 +8,7 @@ import ImageGallery from "../../components/ImageGallery";
 function PFNewPost() {
   const [isCreated, setIsCreated] = useState(false);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     path: "",
@@ -17,8 +18,7 @@ function PFNewPost() {
   });
   const [initialFormData, setInitialFormData] = useState({});
   const [images, setImages] = useState([]);
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const location = useLocation();
   const isEditPage = location.pathname.includes("edit-post");
@@ -63,8 +63,8 @@ function PFNewPost() {
   };
 
   const handlePost = async () => {
-    setMessage("")
-    if(!validateForm()) {
+    setMessage("");
+    if (!validateForm()) {
       return;
     }
 
@@ -72,17 +72,27 @@ function PFNewPost() {
       let res;
 
       if (isEditPage) {
+        setLoading("Guardando cambios...")
         const changedFields = getChangedFields();
-        res = await update(id, "portfolio",changedFields, images, formData.tags);
+        res = await update(
+          id,
+          "portfolio",
+          changedFields,
+          images,
+          formData.tags
+        );
       } else {
+        setLoading("Creando post...")
         res = await create("portfolio", formData, images);
       }
 
-      navigate("/admin/portfolio")
+      navigate("/admin/portfolio");
       setIsCreated(true);
       setMessage(res);
     } catch (error) {
       setMessage("Error al crear/editar el post");
+    }  finally {
+      setLoading("")
     }
   };
 
@@ -109,11 +119,7 @@ function PFNewPost() {
   };
 
   const validateForm = () => {
-    const requiredFields = [
-      "title",
-      "text",
-      "embed"
-    ];
+    const requiredFields = ["title", "text", "embed"];
 
     for (let field of requiredFields) {
       if (!formData[field].trim()) {
@@ -122,12 +128,12 @@ function PFNewPost() {
       }
     }
 
-    if(formData.path === "") {
-      setMessage("Debes seleccionar una opcion 2D o 3D")
-      return false
+    if (formData.path === "") {
+      setMessage("Debes seleccionar una opcion 2D o 3D");
+      return false;
     }
 
-    if(formData.tags.length === 0) {
+    if (formData.tags.length === 0) {
       setMessage("Debes incluir al menos una etiqueta.");
       return false;
     }
@@ -181,6 +187,7 @@ function PFNewPost() {
           {message}
         </p>
       )}
+      {loading && <p className={styles.loadingMessage}>{loading}</p>}
 
       <TextEditor
         value={formData.text}
