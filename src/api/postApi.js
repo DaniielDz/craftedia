@@ -35,9 +35,9 @@ export const getById = async (type, id) => {
     }
 }
 
-export const getAll = async (type, page = 1, path = '') => {
+export const getAll = async (type, page = 1, path = '', title = '') => {
     try {
-        const response = await fetch(`${API_URL}?type=${type}&page=${page}&limit=10&path=${path}`)
+        const response = await fetch(`${API_URL}?type=${type}&page=${page}&limit=10&path=${path}&title=${title}`)
         const data = await response.json()
 
         if (!response.ok) {

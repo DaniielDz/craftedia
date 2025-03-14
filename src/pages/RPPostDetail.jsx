@@ -133,7 +133,7 @@ function PostDetail() {
           <div className={styles.extraImages}>
             {data.images.map(
               (img) =>
-                img.image_order > 6 && (
+                img.image_order > 6 && (  
                   <img key={img.image_order} src={img.image_url} alt="" />
                 )
             )}

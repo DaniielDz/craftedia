@@ -4,22 +4,26 @@ import PostsList from "../../components/PostsList";
 import { getAll } from "../../api/postApi";
 import Pagination from "../../components/Pagination";
 import { ThemeContext } from "../../context/ThemeContext";
+import { useLocation } from "react-router";
 
 function AdminPortfolio() {
   const [posts, setPosts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const {isDarkMode} = useContext(ThemeContext)
+  const location = useLocation()
+  const query = new URLSearchParams(location.search);
+  const title = query.get("title") || "";
 
   async function fetchData() {
-    const result = await getAll("portfolio", currentPage);
+    const result = await getAll("portfolio", currentPage, "", title);
     setPosts(result.data);
     setTotalPages(result.totalPages);
   }
 
   useEffect(() => {
     fetchData();
-  }, [currentPage]);
+  }, [currentPage,title]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
