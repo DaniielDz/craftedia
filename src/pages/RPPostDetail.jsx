@@ -1,4 +1,3 @@
-import skin from "../assets/skin.png";
 import icDescarga from "../assets/descarga.svg";
 import icDescargaDM from "../assets/icDescargaDM.svg";
 import styles from "../styles/RPPostDetail.module.css";
@@ -26,7 +25,7 @@ function PostDetail() {
     let res = await getById("respacks", postId);
     const otherPostsRes = await getAll("respacks", "", path, "");
     const posts = otherPostsRes.data.filter((post) => post.id !== postId);
-    setOtherPosts(posts);    
+    setOtherPosts(posts);
 
     res = {
       ...res,
@@ -128,10 +127,21 @@ function PostDetail() {
                     />
                   )
               )}
+            {data.images.length < 5 && data.embed && (
+              <div
+                className={styles.embedContainer}
+                dangerouslySetInnerHTML={{ __html: data.embed }}
+              />
+            )}
           </div>
           <div className={styles.textoDosContainer}>
-            {data.images[4] && (
+            {data.images[5] ? (
               <img src={data.images[5].image_url} alt="imagen del post" />
+            ) : (
+              <div
+                className={styles.embedContainer}
+                dangerouslySetInnerHTML={{ __html: data.embed }}
+              />
             )}
             <Text txt={data.secondTxt} />
           </div>
@@ -141,6 +151,12 @@ function PostDetail() {
                 img.image_order > 6 && (
                   <img key={img.image_order} src={img.image_url} alt="" />
                 )
+            )}
+            {data.embed && data.images.length > 5 && (
+              <div
+                className={styles.embedContainer}
+                dangerouslySetInnerHTML={{ __html: data.embed }}
+              />
             )}
           </div>
           <div className={styles.bottomInfoContainer}>
@@ -213,7 +229,11 @@ function PostDetail() {
               <ProgressBar percentage={seconds} text={`${seconds}s`} />
             </div>
           </div>
-          <div>{otherPosts && <Carousel posts={otherPosts} postType={"resourcepacks"} />}</div>
+          <div>
+            {otherPosts && (
+              <Carousel posts={otherPosts} postType={"resourcepacks"} />
+            )}
+          </div>
         </section>
       )}
     </>

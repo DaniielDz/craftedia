@@ -20,9 +20,8 @@ const TextEditor = ({ value, onChange }) => {
       handlers: {
         // Manejador para el botón de incrustación
         embed: () => {
-          const url = prompt("Ingresa la URL del modelo 3D de Sketchfab:");
-          if (url) {
-            const embedCode = `<iframe src="${url}/embed" width="600" height="400" frameborder="0" allowfullscreen></iframe>`;
+          const embedCode = prompt("Pega el código de incrustación de Sketchfab:");
+          if (embedCode) {
             const quill = quillRef.current.getEditor(); // Accede a la instancia de Quill
             const range = quill.getSelection();
             quill.clipboard.dangerouslyPasteHTML(range.index, embedCode);

@@ -1,7 +1,6 @@
 import styles from "../styles/PFPostDetail.module.css";
 import TopImage from "../components/TopImagePost";
 import Carousel from "../components/Carousel";
-import skin from "../assets/skin.png";
 import Text from "../components/Text";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
@@ -21,7 +20,7 @@ function PFPostDetail() {
     const response = await getById("portfolio", id);
     const resOtherPosts = await getAll("portfolio", "", path, "");
     const posts = resOtherPosts.data.filter((post) => post.id !== parseInt(id));
-    
+
     setData(response);
     setOtherPosts(posts);
 
@@ -48,10 +47,20 @@ function PFPostDetail() {
             imagesContainer.map((images, index) => (
               <div key={index} className={styles.images}>
                 {images.map((img) => (
-                  <img key={img.image_order} src={img.image_url} alt={skin} />
+                  <img
+                    key={img.image_order}
+                    src={img.image_url}
+                    alt={"imagen de post"}
+                  />
                 ))}
               </div>
             ))}
+          {data.embed && (
+            <div
+              className={styles.embedContainer}
+              dangerouslySetInnerHTML={{ __html: data.embed }}
+            />
+          )}
         </div>
         <div
           className={`${styles.textContainer} ${isDarkMode && styles.darkMode}`}

@@ -92,7 +92,7 @@ function PostItem({ post, onDelete }) {
           to={
             isResPacks
               ? `/resourcepacks/${post.path}/${post.id}`
-              : `/portfolio/2d/${post.id}`
+              : `/portfolio/${post.path}/${post.id}`
           }
         >
           <img
