@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/api/post"
+const API_URL = "https://craftedia-backend.onrender.com/api/post"
 
 export const create = async (postType, formData, images) => {
     try {
