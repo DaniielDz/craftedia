@@ -6,7 +6,7 @@ import ProgressBar from "../components/ProgressBar";
 import Carousel from "../components/Carousel";
 import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { getById } from "../api/postApi";
 import { useLocation } from "react-router";
 import { ThemeContext } from "../context/ThemeContext";
@@ -17,15 +17,18 @@ function PostDetail() {
   const currentUrl = location.pathname;
   const postId = parseInt(currentUrl.split("/").pop());
   const { isDarkMode } = useContext(ThemeContext);
+  const [seconds, setSeconds] = useState(0);
+  const intervalRef = useRef(null)
 
   const getData = async () => {
     let res = await getById("respacks", postId);
     res = {
       ...res,
       created_at: formatearFecha(res.created_at),
-      updated_at: formatearFecha(res.updated_at)
-    }    
+      updated_at: formatearFecha(res.updated_at),
+    };
     setData(res);
+    setSeconds(res.seconds);
   };
 
   function formatearFecha(fechaISO) {
@@ -36,17 +39,59 @@ function PostDetail() {
     return fecha.toLocaleDateString("es-ES", opciones);
   }
 
-
-
+  const handleDownload = () => {
+    if (data) {
+      if (seconds === 0) {
+        window.open(data.dwnFileLink, '_blank');
+        return
+      }
+  
+      intervalRef.current = setInterval(() => {
+        setSeconds((prevSeconds) => {
+          if (prevSeconds > 0) {
+            return prevSeconds - 1;
+          } else {
+            clearInterval(intervalRef.current);
+            return 0;
+          }
+        });
+      }, 1000);
+    }
+  };
+  
   useEffect(() => {
-    getData();
+    if (seconds === 0) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      if (data) {
+        window.open(data.dwnFileLink, '_blank');
+      }
+    }
+  }, [seconds, data]);
+  
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, []);
+  
+  
+    useEffect(() => {
+      getData();
+    }, []);
 
   return (
     <>
       <TopImage />
       {data && (
-        <section className={`${styles.sectionContain} ${isDarkMode && styles.darkMode}`}>
+        <section
+          className={`${styles.sectionContain} ${
+            isDarkMode && styles.darkMode
+          }`}
+        >
           <div className={styles.textoUnoContainer}>
             <div className={styles.textoUnoText}>
               <h1
@@ -137,14 +182,19 @@ function PostDetail() {
               </div>
             </div>
             <div>
-              <button className={`${styles.btnDownload} ${isDarkMode && styles.darkMode}`}>
+              <button
+                className={`${styles.btnDownload} ${
+                  isDarkMode && styles.darkMode
+                }`}
+                onClick={handleDownload}
+              >
                 Download
-                <img src={`${!isDarkMode ? icDescarga : icDescargaDM}`} alt="↓" />
+                <img
+                  src={`${!isDarkMode ? icDescarga : icDescargaDM}`}
+                  alt="↓"
+                />
               </button>
-              <ProgressBar
-                percentage={data.seconds}
-                text={`${data.seconds}s`}
-              />
+              <ProgressBar percentage={seconds} text={`${seconds}s`} />
             </div>
           </div>
           <div>
