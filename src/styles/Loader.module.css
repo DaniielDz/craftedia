@@ -1,0 +1,32 @@
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #212123;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10000;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-content img {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.progress {
+    margin-top: 2rem;
+    width: 100%;
+    height: auto;
+}
+
+.progress div {
+    width: 100%;
+    max-width: 100%;
+}
