@@ -117,6 +117,20 @@ label {
     border-top: 1px solid #fff;
 }
 
+.extraImages {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+.extraImages img {
+    width: 30rem;
+    height: 30rem;
+    border-radius: 1rem;
+    object-fit: cover;
+}
+
 @media (min-width: 768px) {
     .sectionContain {
         max-width: 55%;
@@ -146,5 +160,15 @@ label {
 
     .bottomLeftContainer {
         width: 70%;
+    }
+    .extraImages {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .extraImages {
+        grid-template-columns: repeat(3, 1fr);
     }
 }

@@ -18,7 +18,7 @@ function PostDetail() {
   const postId = parseInt(currentUrl.split("/").pop());
   const { isDarkMode } = useContext(ThemeContext);
   const [seconds, setSeconds] = useState(0);
-  const intervalRef = useRef(null)
+  const intervalRef = useRef(null);
 
   const getData = async () => {
     let res = await getById("respacks", postId);
@@ -28,6 +28,8 @@ function PostDetail() {
       updated_at: formatearFecha(res.updated_at),
     };
     setData(res);
+    console.log(res);
+
     setSeconds(res.seconds);
   };
 
@@ -42,10 +44,10 @@ function PostDetail() {
   const handleDownload = () => {
     if (data) {
       if (seconds === 0) {
-        window.open(data.dwnFileLink, '_blank');
-        return
+        window.open(data.dwnFileLink, "_blank");
+        return;
       }
-  
+
       intervalRef.current = setInterval(() => {
         setSeconds((prevSeconds) => {
           if (prevSeconds > 0) {
@@ -58,18 +60,18 @@ function PostDetail() {
       }, 1000);
     }
   };
-  
+
   useEffect(() => {
     if (seconds === 0) {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
       if (data) {
-        window.open(data.dwnFileLink, '_blank');
+        window.open(data.dwnFileLink, "_blank");
       }
     }
   }, [seconds, data]);
-  
+
   useEffect(() => {
     return () => {
       if (intervalRef.current) {
@@ -77,11 +79,10 @@ function PostDetail() {
       }
     };
   }, []);
-  
-  
-    useEffect(() => {
-      getData();
-    }, []);
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -108,24 +109,34 @@ function PostDetail() {
           </div>
           <div className={styles.gridContainer}>
             {data.images.length > 1 &&
-              data.images
-                .filter((_, index) => index >= 1 && index <= 4)
-                .map((img, index) => (
-                  <img
-                    key={index}
-                    src={img.image_url}
-                    alt={`Imágen de ${data.title}`}
-                    className={
-                      index === 1 ? styles.mainImage : styles.thumbnail
-                    }
-                  />
-                ))}
+              data.images.map(
+                (img, index) =>
+                  img.image_order >= 2 &&
+                  img.image_order <= 5 && (
+                    <img
+                      key={index}
+                      src={img.image_url}
+                      alt={`Imágen de ${data.title}`}
+                      className={
+                        index === 1 ? styles.mainImage : styles.thumbnail
+                      }
+                    />
+                  )
+              )}
           </div>
           <div className={styles.textoDosContainer}>
             {data.images[4] && (
-              <img src={data.images[4].image_url} alt="imagen del post" />
+              <img src={data.images[5].image_url} alt="imagen del post" />
             )}
             <Text txt={data.secondTxt} />
+          </div>
+          <div className={styles.extraImages}>
+            {data.images.map(
+              (img) =>
+                img.image_order > 6 && (
+                  <img key={img.image_order} src={img.image_url} alt="" />
+                )
+            )}
           </div>
           <div className={styles.bottomInfoContainer}>
             <div className={styles.bottomLeftContainer}>

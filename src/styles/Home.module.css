@@ -93,6 +93,9 @@
         justify-content: center;
         border-top: 1px solid #1B1A1D;
     }
+    .absDM {
+        border-top: 1px solid #f7f7f7;
+    }
 
     .aboutMeHeader {
         flex-direction: column;
