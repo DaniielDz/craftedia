@@ -128,7 +128,7 @@ function Header() {
             </Link>
           </div>
           <div className={styles.themeToggle}>
-            <img src={sol} alt="icono de sol" className={styles.themeIcon} />
+            <img src={luna} alt="icono de sol" className={styles.themeIcon} />
             <div className={styles.switchContainer}>
               <input
                 type="checkbox"
@@ -144,7 +144,7 @@ function Header() {
                 }`}
               ></label>
             </div>
-            <img src={luna} alt="icono de luna" className={styles.themeIcon} />
+            <img src={sol} alt="icono de luna" className={styles.themeIcon} />
           </div>
         </div>
       </div>

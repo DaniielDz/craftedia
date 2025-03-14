@@ -7,14 +7,16 @@ import Carousel from "../components/Carousel";
 import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
 import { useContext, useEffect, useRef, useState } from "react";
-import { getById } from "../api/postApi";
+import { getAll, getById } from "../api/postApi";
 import { useLocation } from "react-router";
 import { ThemeContext } from "../context/ThemeContext";
 
 function PostDetail() {
   const [data, setData] = useState(null);
+  const [otherPosts, setOtherPosts] = useState(null);
   const location = useLocation();
   const currentUrl = location.pathname;
+  const path = currentUrl.includes("java") ? "java" : "bedrock";
   const postId = parseInt(currentUrl.split("/").pop());
   const { isDarkMode } = useContext(ThemeContext);
   const [seconds, setSeconds] = useState(0);
@@ -22,13 +24,16 @@ function PostDetail() {
 
   const getData = async () => {
     let res = await getById("respacks", postId);
+    const otherPostsRes = await getAll("respacks", "", path, "");
+    const posts = otherPostsRes.data.filter((post) => post.id !== postId);
+    setOtherPosts(posts);    
+
     res = {
       ...res,
       created_at: formatearFecha(res.created_at),
       updated_at: formatearFecha(res.updated_at),
     };
     setData(res);
-    console.log(res);
 
     setSeconds(res.seconds);
   };
@@ -82,7 +87,7 @@ function PostDetail() {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [postId]);
 
   return (
     <>
@@ -133,7 +138,7 @@ function PostDetail() {
           <div className={styles.extraImages}>
             {data.images.map(
               (img) =>
-                img.image_order > 6 && (  
+                img.image_order > 6 && (
                   <img key={img.image_order} src={img.image_url} alt="" />
                 )
             )}
@@ -208,9 +213,7 @@ function PostDetail() {
               <ProgressBar percentage={seconds} text={`${seconds}s`} />
             </div>
           </div>
-          <div>
-            <Carousel images={[skin, skin, skin, skin, skin, skin]} />
-          </div>
+          <div>{otherPosts && <Carousel posts={otherPosts} postType={"resourcepacks"} />}</div>
         </section>
       )}
     </>

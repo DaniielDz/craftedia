@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import styles from '../styles/Carousel.module.css';
 import { Link } from 'react-router';
 
-const Carousel = ({ images }) => {
+const Carousel = ({ posts, postType }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef(null);
   const itemsPerView = 4;
@@ -22,7 +22,7 @@ const Carousel = ({ images }) => {
       ? currentIndex - itemsPerView 
       : currentIndex + itemsPerView;
       
-    setCurrentIndex(Math.max(0, Math.min(newIndex, images.length - itemsPerView)));
+    setCurrentIndex(Math.max(0, Math.min(newIndex, posts.length - itemsPerView)));
   };
 
   return (
@@ -36,13 +36,14 @@ const Carousel = ({ images }) => {
             setCurrentIndex(index);
           }}
         >
-          {images.map((image, index) => (
-            <Link to={'/'} 
-              key={index}
-              className={styles.imageContainer}
-              style={{ backgroundImage: `url(${image})` }}
-            />
-          ))}
+          {posts.map((post) => (
+              <Link to={`/${postType}/${post.path}/${post.id}`} 
+                key={post.id}
+                className={styles.imageContainer}
+                style={{ backgroundImage: `url(${post.images[0]})` }}
+              />
+            )
+          )}
         </div>
       </div>
       
@@ -57,7 +58,7 @@ const Carousel = ({ images }) => {
       <button 
         className={`${styles.arrow} ${styles.rightArrow}`}
         onClick={() => handleScroll('right')}
-        disabled={currentIndex >= images.length - itemsPerView}
+        disabled={currentIndex >= posts.length - itemsPerView}
       >
         &#10095;
       </button>
