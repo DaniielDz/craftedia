@@ -18,11 +18,16 @@ function AdminPortfolio() {
   const title = query.get("title") || "";
 
   async function fetchData() {
-    setLoading(true);
-    const result = await getAll("portfolio", currentPage, "", title);
-    setPosts(result.data);
-    setTotalPages(result.totalPages);
-    setLoading(false);
+    try {
+      setLoading(true);
+      const result = await getAll("portfolio", currentPage, "", title);
+      setPosts(result.data);
+      setTotalPages(result.totalPages);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -47,7 +52,7 @@ function AdminPortfolio() {
       />
       {loading ? (
         <LoadingPosts text="posts" />
-      ) : posts.length > 0 ? (
+      ) : (posts.length > 0 ? (
         <PostsList posts={posts} onDelete={handleDelete} />
       ) : (
         <h2
@@ -62,7 +67,7 @@ function AdminPortfolio() {
         >
           Crea el primer post
         </h2>
-      )}
+      ))}
 
       {totalPages > 1 && (
         <div style={{ marginTop: "10%", marginLeft: "10%" }}>

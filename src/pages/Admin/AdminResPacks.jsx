@@ -16,14 +16,18 @@ function AdminResPacks() {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const title = query.get("title") || "";
-
   async function fetchData() {
-    setLoading(true);
-    const result = await getAll("respacks", currentPage, "", title);
+    try {
+      setLoading(true);
+      const result = await getAll("respacks", currentPage, "", title);
 
-    setPosts(result.data);
-    setTotalPages(result.totalPages);
-    setLoading(false);
+      setPosts(result.data);
+      setTotalPages(result.totalPages);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
