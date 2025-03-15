@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import AdminHeaderPage from "../../components/AdminHeaderPage";
 import PostsList from "../../components/PostsList";
+import LoadingPosts from "../../components/LoadingPosts";
 import { getAll } from "../../api/postApi";
 import Pagination from "../../components/Pagination";
 import { ThemeContext } from "../../context/ThemeContext";
@@ -8,22 +9,25 @@ import { useLocation } from "react-router";
 
 function AdminPortfolio() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const {isDarkMode} = useContext(ThemeContext)
-  const location = useLocation()
+  const { isDarkMode } = useContext(ThemeContext);
+  const location = useLocation();
   const query = new URLSearchParams(location.search);
   const title = query.get("title") || "";
 
   async function fetchData() {
+    setLoading(true);
     const result = await getAll("portfolio", currentPage, "", title);
     setPosts(result.data);
     setTotalPages(result.totalPages);
+    setLoading(false);
   }
 
   useEffect(() => {
     fetchData();
-  }, [currentPage,title]);
+  }, [currentPage, title]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -41,7 +45,9 @@ function AdminPortfolio() {
         newPostLink={"/admin/portfolio/new-post"}
         title={"Portfolio"}
       />
-      {posts.length > 0 ? (
+      {loading ? (
+        <LoadingPosts text="posts" />
+      ) : posts.length > 0 ? (
         <PostsList posts={posts} onDelete={handleDelete} />
       ) : (
         <h2

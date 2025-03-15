@@ -3,6 +3,7 @@ import icDescargaDM from "../assets/icDescargaDM.svg";
 import styles from "../styles/RPPostDetail.module.css";
 import ProgressBar from "../components/ProgressBar";
 import Carousel from "../components/Carousel";
+import LoadingPosts from "../components/LoadingPosts";
 import TopImage from "../components/TopImagePost";
 import Text from "../components/Text";
 import { useContext, useEffect, useRef, useState } from "react";
@@ -12,6 +13,7 @@ import { ThemeContext } from "../context/ThemeContext";
 
 function PostDetail() {
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [otherPosts, setOtherPosts] = useState(null);
   const location = useLocation();
   const currentUrl = location.pathname;
@@ -22,6 +24,7 @@ function PostDetail() {
   const intervalRef = useRef(null);
 
   const getData = async () => {
+    setLoading(true)
     let res = await getById("respacks", postId);
     const otherPostsRes = await getAll("respacks", "", path, "");
     const posts = otherPostsRes.data.filter((post) => post.id !== postId);
@@ -35,6 +38,7 @@ function PostDetail() {
     setData(res);
 
     setSeconds(res.seconds);
+    setLoading(false)
   };
 
   function formatearFecha(fechaISO) {
@@ -91,7 +95,8 @@ function PostDetail() {
   return (
     <>
       <TopImage />
-      {data && (
+      {loading && <LoadingPosts text={"post"}/>}
+      {data && !loading && (
         <section
           className={`${styles.sectionContain} ${
             isDarkMode && styles.darkMode

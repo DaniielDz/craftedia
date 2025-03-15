@@ -5,26 +5,30 @@ import Pagination from "../../components/Pagination";
 import { getAll } from "../../api/postApi.js";
 import { ThemeContext } from "../../context/ThemeContext.jsx";
 import { useLocation } from "react-router";
+import LoadingPosts from "../../components/LoadingPosts";
 
 function AdminResPacks() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const { isDarkMode } = useContext(ThemeContext);
-  const location = useLocation()
+  const location = useLocation();
   const query = new URLSearchParams(location.search);
   const title = query.get("title") || "";
 
   async function fetchData() {
-    const result = await getAll("respacks", currentPage,"", title);
+    setLoading(true);
+    const result = await getAll("respacks", currentPage, "", title);
 
     setPosts(result.data);
     setTotalPages(result.totalPages);
+    setLoading(false);
   }
 
   useEffect(() => {
     fetchData();
-  }, [currentPage,title]);
+  }, [currentPage, title]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -43,7 +47,9 @@ function AdminResPacks() {
         title={"Resourcepacks"}
       />
 
-      {posts.length > 0 ? (
+      {loading ? (
+        <LoadingPosts text={"posts"} />
+      ) : posts.length > 0 ? (
         <PostsList posts={posts} onDelete={handleDelete} />
       ) : (
         <h2

@@ -5,15 +5,16 @@ import { useContext, useEffect, useState } from "react";
 import { getAll } from "../api/postApi";
 import Pagination from "../components/Pagination";
 import { ThemeContext } from "../context/ThemeContext";
+import LoadingPosts from "../components/LoadingPosts";
 
 function InnerPage() {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const location = useLocation();
-  const {isDarkMode} = useContext(ThemeContext)
+  const { isDarkMode } = useContext(ThemeContext);
 
-  // Determinar la ruta actual
   const resPacks = location.pathname.includes("resourcepacks");
   const javaPage = location.pathname.includes("java");
   const page2D = location.pathname.includes("2d");
@@ -25,31 +26,29 @@ function InnerPage() {
     ? "2d"
     : "3d";
 
-  // Función para obtener los datos
   async function fetchData() {
+    setLoading(true)
     try {
-      const type = resPacks ? "respacks" : "portfolio"
-      const result = await getAll(type,currentPage, path);
+      const type = resPacks ? "respacks" : "portfolio";
+      const result = await getAll(type, currentPage, path);
       setPosts(result.data);
       setTotalPages(result.totalPages);
     } catch (error) {
-      console.error("Error fetching posts:", error);
-      setPosts([]); // Resetear posts en caso de error
-      setTotalPages(1); // Resetear totalPages en caso de error
+      setPosts([]);
+      setTotalPages(1);
+    } finally {
+      setLoading(false);
     }
   }
 
-  // Ejecutar fetchData cuando cambie currentPage o path
   useEffect(() => {
     fetchData();
   }, [currentPage, path]);
 
-  // Resetear la página actual cuando cambia la ruta
   useEffect(() => {
-    setCurrentPage(1); // Resetear a la página 1 al cambiar de ruta
+    setCurrentPage(1);
   }, [path]);
 
-  // Cambiar de página
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
@@ -71,8 +70,12 @@ function InnerPage() {
           <h2>{resPacks ? "Resourcepacks" : "Portfolio"}</h2>
         </div>
       </section>
-      <section className={`${styles.gridSection} ${isDarkMode && styles.darkMode}`}>
-        {posts.length > 0 ? (
+      <section
+        className={`${styles.gridSection} ${isDarkMode && styles.darkMode}`}
+      >
+        {loading ? ( 
+          <LoadingPosts text={"posts"}/>
+        ) : posts.length > 0 ? ( 
           posts.map((post) => (
             <Link
               key={post.id}
@@ -96,7 +99,7 @@ function InnerPage() {
           <h2>No se encontraron posts</h2>
         )}
       </section>
-      {posts.length > 0 && (
+      {posts.length > 0 && !loading && (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}

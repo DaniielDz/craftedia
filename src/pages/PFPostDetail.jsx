@@ -6,10 +6,12 @@ import { useContext, useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { getAll, getById } from "../api/postApi";
 import { ThemeContext } from "../context/ThemeContext";
+import LoadingPosts from "../components/LoadingPosts";
 
 function PFPostDetail() {
   const { isDarkMode } = useContext(ThemeContext);
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
   const [otherPosts, setOtherPosts] = useState([]);
   const [imagesContainer, setImagesContainer] = useState([]);
   const { id } = useParams();
@@ -17,6 +19,7 @@ function PFPostDetail() {
   const path = location.pathname.includes("2d") ? "2d" : "3d";
 
   const getPost = async () => {
+    setLoading(true);
     const response = await getById("portfolio", id);
     const resOtherPosts = await getAll("portfolio", "", path, "");
     const posts = resOtherPosts.data.filter((post) => post.id !== parseInt(id));
@@ -30,6 +33,7 @@ function PFPostDetail() {
       tempImages.push(response.images.slice(i, i + chunkSize));
     }
     setImagesContainer(tempImages);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -39,39 +43,49 @@ function PFPostDetail() {
   return (
     <>
       <TopImage />
-
-      <section className={`${styles.section} ${isDarkMode && styles.darkMode}`}>
-        <div className={styles.imagesContainer}>
-          {imagesContainer &&
-            imagesContainer.length > 0 &&
-            imagesContainer.map((images, index) => (
-              <div key={index} className={styles.images}>
-                {images.map((img) => (
-                  <img
-                    key={img.image_order}
-                    src={img.image_url}
-                    alt={"imagen de post"}
-                  />
+      {loading && <LoadingPosts text={"post"}/>}
+      {!loading && data && (
+        <>
+          <section
+            className={`${styles.section} ${isDarkMode && styles.darkMode}`}
+          >
+            <div className={styles.imagesContainer}>
+              {imagesContainer &&
+                imagesContainer.length > 0 &&
+                imagesContainer.map((images, index) => (
+                  <div key={index} className={styles.images}>
+                    {images.map((img) => (
+                      <img
+                        key={img.image_order}
+                        src={img.image_url}
+                        alt={"imagen de post"}
+                      />
+                    ))}
+                  </div>
                 ))}
-              </div>
-            ))}
-          {data.embed && (
+              {data.embed && (
+                <div
+                  className={styles.embedContainer}
+                  dangerouslySetInnerHTML={{ __html: data.embed }}
+                />
+              )}
+            </div>
             <div
-              className={styles.embedContainer}
-              dangerouslySetInnerHTML={{ __html: data.embed }}
-            />
-          )}
-        </div>
-        <div
-          className={`${styles.textContainer} ${isDarkMode && styles.darkMode}`}
-        >
-          <h1>{data.title}</h1>
-          <Text txt={data.text} />
-        </div>
-      </section>
-      <section className={styles.sectionCarousel}>
-        {otherPosts && <Carousel posts={otherPosts} postType={"portfolio"} />}
-      </section>
+              className={`${styles.textContainer} ${
+                isDarkMode && styles.darkMode
+              }`}
+            >
+              <h1>{data.title}</h1>
+              <Text txt={data.text} />
+            </div>
+          </section>
+          <section className={styles.sectionCarousel}>
+            {otherPosts && (
+              <Carousel posts={otherPosts} postType={"portfolio"} />
+            )}
+          </section>
+        </>
+      )}
     </>
   );
 }
